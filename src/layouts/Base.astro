@@ -1,0 +1,82 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+import { SQUARE_BOOKING_URL } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#292529" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      // Set before first paint so the animated intro does not flash its static layout.
+      if (matchMedia('(prefers-reduced-motion: no-preference)').matches && document.querySelector) {
+        document.documentElement.classList.add('motion');
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-header>
+      <a class="wordmark" href="/" aria-label="Blush Beauty by Zee — home">
+        <span class="wordmark__main">Blush Beauty</span>
+        <span class="wordmark__sub">by Zee</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/#services">Services</a>
+        <a href="/#results">Results</a>
+        <a href="/#zheen">Meet Zheen</a>
+        <a href="/#faq">FAQs</a>
+      </nav>
+      <a class="btn btn--book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Now</a>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <p class="site-footer__lockup">Blush Beauty by Zee</p>
+        <p class="site-footer__desc">
+          Lip artistry and specialized skin camouflage and revision services in Orléans, Ottawa. Discover
+          Zheen's work, explore your options, and book your next appointment.
+        </p>
+        <div class="site-footer__cols">
+          <div>
+            <h2>Explore</h2>
+            <ul>
+              <li><a href="/services/lip-blush">Lip Blush</a></li>
+              <li><a href="/services/lip-neutralization">Lip Neutralization</a></li>
+              <li><a href="/services/lip-ombre">Lip Ombré</a></li>
+              <li><a href="/services/stretch-mark-revision">Stretch Mark Revision</a></li>
+              <li><a href="/services/scar-camouflage">Scar Camouflage</a></li>
+              <li><a href="/services/vitiligo-camouflage">Vitiligo Camouflage</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Get in Touch</h2>
+            <ul>
+              <li><a href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Online</a></li>
+              <li><a href="https://www.instagram.com/blushbeautybyzee/" target="_blank" rel="noopener">Instagram</a></li>
+              <li>Orléans, Ottawa</li>
+            </ul>
+          </div>
+        </div>
+        <p class="site-footer__note">Treatments, suitability and results vary by individual. Consultation may be recommended.</p>
+        <p class="site-footer__legal">© {new Date().getFullYear()} Blush Beauty by Zee. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

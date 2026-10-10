@@ -1,0 +1,66 @@
+---
+// A clearly marked placeholder for a real photograph that still needs to be
+// shot or supplied. `brief` is the shot code from the prompt pack (R01–R36).
+// Search the codebase for `data-photo-slot` to find every slot left to fill.
+interface Props {
+  brief: string;
+  label: string;
+  ratio?: string;
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+const { brief, label, ratio = '4 / 5', tone = 'light', class: className } = Astro.props;
+---
+
+<figure
+  class:list={['photo-slot', `photo-slot--${tone}`, className]}
+  style={`aspect-ratio: ${ratio}`}
+  data-photo-slot={brief}
+>
+  <span class="photo-slot__tag">Photo slot · {brief}</span>
+  <figcaption class="photo-slot__label">{label}</figcaption>
+</figure>
+
+<style>
+  .photo-slot {
+    position: relative;
+    margin: 0;
+    display: grid;
+    place-items: end start;
+    padding: 1rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 14px, var(--slot-hatch) 14px 15px),
+      var(--slot-bg);
+    outline: 1px dashed var(--slot-line);
+    outline-offset: -8px;
+  }
+  .photo-slot--light {
+    --slot-bg: linear-gradient(160deg, #f3dfe3, #e7c9d0);
+    --slot-hatch: rgb(116 60 81 / 0.07);
+    --slot-line: rgb(116 60 81 / 0.35);
+    color: var(--berry);
+  }
+  .photo-slot--dark {
+    --slot-bg: linear-gradient(160deg, #3a2730, #231b1f);
+    --slot-hatch: rgb(246 232 232 / 0.05);
+    --slot-line: rgb(246 232 232 / 0.3);
+    color: var(--ivory);
+  }
+  .photo-slot__tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+  .photo-slot__label {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    max-width: 26ch;
+  }
+</style>
