@@ -18,9 +18,9 @@
   /* aliases used by components */
   --plum: var(--plum-800);
 
-  --font-display: 'Playfair Display Variable', 'Iowan Old Style', Georgia, serif;
+  --font-display: 'Bodoni Moda Variable', 'Didot', 'Bodoni 72', Georgia, serif;
   --font-body: 'Montserrat Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-script: 'Allura', 'Snell Roundhand', cursive;
+  --font-script: 'Ms Madi', 'Snell Roundhand', cursive;
 
   --radius: 10px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
@@ -56,6 +56,10 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  /* Bodoni Moda's display cuts get hairline-thin at large sizes; a low optical size
+     keeps the sturdier contrast seen in the mockups. Montserrat ignores the axis. */
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 16;
 }
 
 img {
@@ -72,7 +76,7 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 450;
   line-height: 1.08;
   margin: 0;
 }
@@ -319,11 +323,24 @@ ul:where([role='list']) {
   text-transform: uppercase;
 }
 .wordmark__sub {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: stretch;
   margin-top: 0.3rem;
   font-size: 0.5625rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.42em;
   text-transform: uppercase;
+}
+/* hairlines either side of "by Zee", as on the mockup wordmark */
+.wordmark__sub::before,
+.wordmark__sub::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
 }
 
 .site-nav {
@@ -667,8 +684,8 @@ ul:where([role='list']) {
     right: var(--gutter);
     bottom: 3.5rem;
     font-family: var(--font-script);
-    font-size: clamp(2.2rem, 3.4vw, 3.4rem);
-    line-height: 1.05;
+    font-size: clamp(2.6rem, 4vw, 3.9rem);
+    line-height: 1;
     text-align: right;
     color: rgb(251 233 238 / 0.85);
     transform: rotate(-8deg);
@@ -1291,8 +1308,8 @@ ul:where([role='list']) {
     right: var(--gutter);
     top: -1rem;
     font-family: var(--font-script);
-    font-size: 3rem;
-    line-height: 1;
+    font-size: 3.4rem;
+    line-height: 0.95;
     color: var(--pink);
     transform: rotate(-8deg);
     text-align: right;

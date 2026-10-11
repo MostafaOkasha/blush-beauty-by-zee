@@ -12,7 +12,8 @@ presentation, education and trust layer.
 - Motion: CSS for the hero entrance, IntersectionObserver for scroll reveals. Phones get no scroll-linked
   animation (no pinning or scrubbing), so native scrolling stays smooth. [GSAP](https://gsap.com) ScrollTrigger is
   loaded only on wide screens for a light hero parallax.
-- Playfair Display, Montserrat and Allura, self-hosted via Fontsource
+- Bodoni Moda (display), Montserrat (text) and Ms Madi (script), matched to the design mockups and self-hosted
+  via Fontsource
 - Hosting: Cloudflare Pages (`npm run deploy`, config in `wrangler.toml`, security headers in `public/_headers`)
 
 ## Develop
