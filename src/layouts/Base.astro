@@ -23,6 +23,7 @@ const { title, description } = Astro.props;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>
       // Set before first paint so the animated intro does not flash its static layout.
+      // If you edit this script, update its sha256 hash in public/_headers.
       if (matchMedia('(prefers-reduced-motion: no-preference)').matches && document.querySelector) {
         document.documentElement.classList.add('motion');
       }

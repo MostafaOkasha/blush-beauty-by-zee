@@ -11,7 +11,7 @@ presentation, education and trust layer.
 - [Astro](https://astro.build) static output
 - [GSAP](https://gsap.com) ScrollTrigger for the few scroll-linked scenes
 - Fraunces + Manrope, self-hosted via Fontsource
-- Hosting: Cloudflare (static files from `dist/`)
+- Hosting: Cloudflare Pages (`npm run deploy`, config in `wrangler.toml`, security headers in `public/_headers`)
 
 ## Develop
 
