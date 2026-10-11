@@ -2,259 +2,342 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
-import heroArt from '../assets/art/hero-pigment.png';
-import lipsArt from '../assets/art/portal-lips.png';
+import Placeholder from '../components/Placeholder.astro';
+import heroWide from '../assets/placeholder/hero-wide.webp';
+import heroTall from '../assets/placeholder/hero-tall.webp';
+import lipBlush from '../assets/placeholder/lip-blush.webp';
+import lipNeutral from '../assets/placeholder/lip-neutralization.webp';
+import lipOmbre from '../assets/placeholder/lip-ombre.webp';
+import approach from '../assets/placeholder/approach.webp';
+import pigment from '../assets/placeholder/pigment.webp';
 import skinArt from '../assets/art/portal-skin.png';
-import { SQUARE_BOOKING_URL, INSTAGRAM_URL, featured, journey, faqs } from '../data/site';
+import { getImage } from 'astro:assets';
+import { SQUARE_BOOKING_URL, INSTAGRAM_URL, lipServices, skinServices, faqs } from '../data/site';
 
-const lipServices = featured.filter((s) => s.family === 'lip');
-const skinServices = featured.filter((s) => s.family === 'skin');
-const statement = 'Every detail deserves attention.'.split(' ');
+const lipImages = [lipBlush, lipNeutral, lipOmbre];
+const heroWideImg = await getImage({ src: heroWide, format: 'webp' });
+const heroTallImg = await getImage({ src: heroTall, format: 'webp' });
+const skinArtImg = await getImage({ src: skinArt, format: 'webp', width: 900 });
+// Skin tiles share one abstract texture, tinted per service until real photos exist.
+const skinTints = ['tint-1', 'tint-2', 'tint-3', 'tint-4'];
+const icons = {
+  drop: 'M12 3c3.5 4.2 6 7.6 6 10.5A6 6 0 0 1 6 13.5C6 10.6 8.5 7.2 12 3z',
+  tone: 'M4 12a8 8 0 0 1 16 0M4 12h16M7 16h10M9 20h6',
+  chat: 'M4 5h16v10H9l-5 4z',
+  leaf: 'M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8',
+};
 ---
 
 <Base
   title="Lip Blush & Skin Camouflage in Ottawa | Blush Beauty by Zee"
   description="Explore lip blush, dark lip neutralization, stretch mark revision and selected scar camouflage treatments with Zheen in Orléans, Ottawa. View services, pricing and booking."
+  overHero
 >
-  <!-- H01 + H02: one scene. Without JS or with reduced motion these are two ordinary sections. -->
-  <div class="intro" data-intro>
-    <section class="hero" aria-labelledby="hero-title" data-hero>
-      <div class="hero__media" aria-hidden="true">
-        <div class="hero__zoom" data-hero-zoom>
-          <div class="hero__half hero__half--l" data-hero-half="l">
-            <Image src={heroArt} alt="" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" />
-          </div>
-          <div class="hero__half hero__half--r" data-hero-half="r">
-            <Image src={heroArt} alt="" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" />
-          </div>
-        </div>
-        <div class="hero__veil"></div>
-      </div>
-
-      <svg class="hero__accent" viewBox="0 0 400 120" aria-hidden="true" data-hero-accent>
-        <path d="M4 96 C 90 20, 170 20, 210 62 S 330 110, 396 24" pathLength="1" />
-      </svg>
-
-      <div class="hero__copy container" data-hero-copy>
-        <p class="eyebrow eyebrow--light">Blush Beauty by Zee · Orléans, Ottawa</p>
-        <h1 id="hero-title" class="hero__title">
-          <span class="line"><span>Beauty,</span></span>
-          <span class="line"><span>in your</span></span>
-          <span class="line"><span>own shade.</span></span>
-        </h1>
-        <p class="hero__lead">
-          Thoughtful lip artistry and specialized skin treatments, personalized to your features and goals.
-        </p>
-        <div class="cta-row">
-          <a class="btn btn--light" href="#services">Explore Services</a>
-          <a class="btn btn--ghost-light" href="#zheen">Meet Zheen</a>
-        </div>
-      </div>
-
-      <p class="hero__scroll" aria-hidden="true" data-hero-scroll>Scroll to discover</p>
-      <p class="hero__note" data-hero-copy-note>
-        Abstract pigment study. A real macro of Zheen's work can replace it (R06).
+  <!-- H01 hero -->
+  <section class="hero" aria-labelledby="hero-title" data-hero>
+    <div class="hero__media" data-placeholder-image="R06 macro of Zheen's healed work" aria-hidden="true">
+      <picture>
+        <source media="(min-width: 760px)" srcset={heroWideImg.src} />
+        <img src={heroTallImg.src} alt="" fetchpriority="high" data-hero-img />
+      </picture>
+      <span class="ph-tag">Placeholder · R06</span>
+    </div>
+    <ol class="hero__rail" aria-hidden="true">
+      <li class="is-active">01</li><li>02</li><li>03</li><li>04</li><li>05</li>
+    </ol>
+    <div class="hero__copy container">
+      <p class="eyebrow eyebrow--pink" data-hero-in>Lip artistry &amp; skin camouflage · Orléans, Ottawa</p>
+      <h1 id="hero-title" class="hero__title">
+        <span class="line"><span>Beauty, in your</span></span>
+        <span class="line"><span>own <em>shade.</em></span></span>
+      </h1>
+      <p class="hero__lead" data-hero-in>
+        Thoughtful lip artistry and specialized skin treatments, personalized to your features and goals.
       </p>
-    </section>
+      <div class="cta-row" data-hero-in>
+        <a class="btn btn--pink" href="#lips">Explore Services <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Now</a>
+      </div>
+      <ul class="hero__trust" data-hero-in>
+        <li>Personalized colour approach</li>
+        <li>Lip &amp; skin specialist</li>
+        <li>By appointment in Orléans</li>
+      </ul>
+    </div>
+    <p class="hero__script" aria-hidden="true">Lips · Skin<br />Artistry</p>
+    <p class="hero__scroll" aria-hidden="true">Scroll to discover</p>
+  </section>
 
-    <section class="practice" aria-labelledby="practice-title" data-practice>
-      <div class="practice__head container">
+  <!-- H02 two specialties -->
+  <section class="specialties" aria-labelledby="specialties-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
         <p class="eyebrow">The practice</p>
-        <h2 id="practice-title" class="practice__title">Two specialties. One personal approach.</h2>
-        <p class="practice__lead">
-          Explore cosmetic lip treatments and selected skin revision or camouflage services, each with its own
-          methods, considerations and results.
+        <h2 id="specialties-title" class="display">Two specialties. <em>One personal approach.</em></h2>
+      </div>
+      <div class="specialty-grid">
+        <a class="specialty" href="#lips" data-specialty="lip" data-reveal>
+          <Image class="specialty__img" src={lipBlush} alt="" widths={[456]} sizes="(min-width: 760px) 50vw, 100vw" />
+          <span class="specialty__body">
+            <span class="specialty__title">Lip Artistry</span>
+            <span class="specialty__text">Lip blush, dark lip neutralization and ombré techniques.</span>
+          </span>
+          <span class="arrow-circle" aria-hidden="true">→</span>
+        </a>
+        <a class="specialty" href="#skin" data-specialty="skin" data-reveal>
+          <Image class="specialty__img" src={skinArt} alt="" widths={[600, 900]} sizes="(min-width: 760px) 50vw, 100vw" />
+          <span class="specialty__body">
+            <span class="specialty__title">Skin Revision &amp; Camouflage</span>
+            <span class="specialty__text">Stretch marks, scars, vitiligo and radiation markers.</span>
+          </span>
+          <span class="arrow-circle" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- H04a lip services -->
+  <section id="lips" class="lips" aria-labelledby="lips-title">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow">Lip services</p>
+          <h2 id="lips-title" class="display">Find the perfect lip treatment <em>for you.</em></h2>
+        </div>
+        <p class="section-lead">
+          Three specialized techniques, each designed to enhance, balance or define, with a result chosen for your
+          natural lip tone.
         </p>
       </div>
-      <div class="portals container" data-portals>
-        <a class="portal portal--lip" href="#lip-artistry" data-portal="lip">
-          <Image class="portal__art" src={lipsArt} alt="" widths={[600, 900]} sizes="(min-width: 760px) 45vw, 100vw" />
-          <span class="portal__body">
-            <span class="portal__kicker">01</span>
-            <span class="portal__title">Lip Artistry</span>
-            <span class="portal__text">Explore lip blush, dark lip neutralization and ombré techniques.</span>
-            <span class="portal__link">Explore Lip Treatments <span aria-hidden="true">→</span></span>
-          </span>
-        </a>
-        <a class="portal portal--skin" href="#skin-revision" data-portal="skin">
-          <Image class="portal__art" src={skinArt} alt="" widths={[600, 900]} sizes="(min-width: 760px) 45vw, 100vw" />
-          <span class="portal__body">
-            <span class="portal__kicker">02</span>
-            <span class="portal__title">Skin Revision &amp; Camouflage</span>
-            <span class="portal__text">
-              Learn about stretch mark treatments, scar camouflage and specialized pigmentation services.
-            </span>
-            <span class="portal__link">Explore Skin Treatments <span aria-hidden="true">→</span></span>
-          </span>
-        </a>
-      </div>
-    </section>
-  </div>
-
-  <!-- H03 -->
-  <section class="statement container" aria-labelledby="statement-title">
-    <p class="eyebrow">Artistry in the details</p>
-    <h2 id="statement-title" class="statement__title" data-kinetic>
-      {statement.map((w) => <span class="word">{w} </span>)}
-    </h2>
-    <p class="statement__copy">
-      Whether you're exploring subtle lip color or a specialized treatment for visible marks, the right starting
-      point is understanding your options.
+    </div>
+    <ul class="card-row container" role="list">
+      {
+        lipServices.map((s, i) => (
+          <li class="lip-card" data-reveal>
+            <a href={s.href} class="lip-card__link">
+              <Placeholder
+                class="lip-card__img"
+                src={lipImages[i]}
+                sizes="(min-width: 760px) 33vw, 80vw"
+                replaceWith={`R1${i + 1}`}
+              />
+              <span class="lip-card__title">{s.name}</span>
+              <span class="arrow-circle arrow-circle--light" aria-hidden="true">→</span>
+            </a>
+            <div class="lip-card__body">
+              <p>{s.blurb}</p>
+              <p class="lip-card__price">{s.price}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="container fine-print">
+      Prices are from the current service list and may vary. Confirm details during booking.
     </p>
   </section>
 
-  <!-- H04 -->
-  <section id="services" class="services" aria-labelledby="services-title">
+  <!-- H04b skin services: same weight as lips -->
+  <section id="skin" class="skin" aria-labelledby="skin-title">
     <div class="container">
-      <h2 id="services-title" class="section-title">Discover your options.</h2>
-      <p class="section-lead">
-        Start with the treatment you're curious about. Find the details, the current price and what to expect.
-      </p>
-      <div class="service-groups">
-        <div class="service-group" id="lip-artistry">
-          <h3 class="service-group__title">Lip Artistry</h3>
-          <ul class="service-list" role="list">
-            {lipServices.map((s) => (
-              <li class="service" data-reveal>
-                <div class="service__row">
-                  <h4 class="service__name">{s.name}</h4>
-                  <p class="service__price">{s.price}</p>
-                </div>
-                <p class="service__blurb">{s.blurb}</p>
-                <p class="service__actions">
-                  <a href={s.href}>Learn More</a>
-                  <a href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book</a>
-                </p>
-              </li>
-            ))}
-          </ul>
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow">Specialized skin services</p>
+          <h2 id="skin-title" class="display">Expertise <em>beyond lips.</em></h2>
         </div>
-        <div class="service-group" id="skin-revision">
-          <h3 class="service-group__title">Skin Revision &amp; Camouflage</h3>
-          <ul class="service-list" role="list">
-            {skinServices.map((s) => (
-              <li class="service" data-reveal>
-                <div class="service__row">
-                  <h4 class="service__name">{s.name}</h4>
-                  <p class="service__price">{s.price}</p>
-                </div>
-                <p class="service__blurb">{s.blurb}</p>
-                <p class="service__actions">
-                  <a href={s.href}>Learn More</a>
-                  <a href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book</a>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <p class="section-lead">
+          Zheen also offers selected treatments for stretch marks, scars, vitiligo and radiation markers, areas
+          that call for careful camouflage or revision.
+        </p>
       </div>
-      <p class="fine-print">
-        Prices shown are based on the current service list and may vary by treatment or area. Confirm details
-        during booking.
-      </p>
+      <ul class="skin-grid" role="list" style={`--skin-art: url(${skinArtImg.src})`}>
+        {
+          skinServices.map((s, i) => (
+            <li class="skin-tile" data-reveal>
+              <a href={s.href}>
+                <span class={`skin-tile__img ${skinTints[i]}`} aria-hidden="true" />
+                <span class="skin-tile__name">{s.name}</span>
+                <span class="skin-tile__blurb">{s.blurb}</span>
+                <span class="skin-tile__price">{s.price}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn--plum" href="/services/scar-camouflage">Explore Skin Services <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
-  <!-- H06 -->
+  <!-- H06 real results -->
   <section id="results" class="results" aria-labelledby="results-title">
-    <div class="container">
-      <p class="eyebrow">Real work</p>
-      <h2 id="results-title" class="section-title">See the work for yourself.</h2>
-      <p class="section-lead">
-        Explore real client photographs, treatment details and healed results where available. Every result
-        belongs to an individual; outcomes can vary.
-      </p>
-      <div class="results__grid">
-        <PhotoSlot brief="R12" label="Lip Neutralization, healed, deeper natural lip tone" />
-        <PhotoSlot brief="R11" label="Lip Blush, healed result with date" />
-        <PhotoSlot brief="R13" label="Lip Ombré, healed result with date" />
-        <PhotoSlot brief="R15" label="Stretch Mark Revision, matched before and after" />
-        <PhotoSlot brief="R20" label="Post-surgical scar camouflage, matched before and after" />
-        <PhotoSlot brief="R22" label="Vitiligo camouflage, stable area, with consent" />
+    <div class="container results__grid">
+      <div class="results__intro" data-reveal>
+        <p class="eyebrow eyebrow--pink">Real results</p>
+        <h2 id="results-title" class="display display--light">Real work. <em>Real clients.</em></h2>
+        <p>
+          Explore real client photographs and healed results. Every result belongs to an individual; outcomes can
+          vary.
+        </p>
+        <a class="btn btn--pink" href="/results">View Full Gallery <span aria-hidden="true">→</span></a>
       </div>
-      <a class="btn btn--dark" href="/results">Explore Real Results</a>
+      <div class="compare" data-compare data-reveal>
+        <div class="compare__pane compare__pane--before">
+          <span>Before</span>
+          <small>Photo slot · R12</small>
+        </div>
+        <div class="compare__pane compare__pane--after" data-compare-after>
+          <span>Healed</span>
+          <small>Photo slot · R12</small>
+        </div>
+        <span class="compare__handle" aria-hidden="true" data-compare-handle>‹ ›</span>
+        <input
+          class="compare__range"
+          type="range"
+          min="0"
+          max="100"
+          value="50"
+          aria-label="Compare before and healed photos"
+          data-compare-range
+        />
+        <p class="compare__caption" data-compare-caption>Lip Neutralization · awaiting Zheen's healed photos</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter results" data-filters>
+        <button type="button" class="pill is-active" data-filter="Lip Neutralization">All results</button>
+        <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button>
+        <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
+        <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
+        <button type="button" class="pill" data-filter="Skin camouflage">Skin</button>
+      </div>
     </div>
   </section>
 
-  <!-- H07 -->
+  <!-- Approach -->
+  <section class="approach" aria-labelledby="approach-title">
+    <Placeholder class="approach__img" src={approach} sizes="(min-width: 900px) 50vw, 100vw" replaceWith="R07" />
+    <div class="approach__copy" data-reveal>
+      <p class="eyebrow">The approach</p>
+      <h2 id="approach-title" class="display">Lip artistry that stays <em>personal.</em></h2>
+      <p>
+        Every set of lips has its own tone, shape and character. Zheen's approach focuses on thoughtful colour
+        selection, careful technique and results suited to the individual.
+      </p>
+      <ul class="features" role="list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.drop} /></svg>Tailored colour approach</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.tone} /></svg>Suitable for different tones</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.chat} /></svg>Consultation-led care</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.leaf} /></svg>Clear healing guidance</li>
+      </ul>
+      <a class="btn btn--plum" href="#zheen">Meet Zheen <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- H07 Meet Zheen -->
   <section id="zheen" class="zheen" aria-labelledby="zheen-title">
     <div class="container zheen__grid">
-      <PhotoSlot brief="R01" label="Zheen, flagship portrait in the studio" ratio="4 / 5" tone="dark" class="zheen__photo" />
+      <PhotoSlot brief="R01" label="Zheen, flagship portrait in her studio" ratio="4 / 5" class="zheen__photo" />
       <div class="zheen__copy" data-reveal>
-        <p class="eyebrow eyebrow--light">The artist behind the work</p>
-        <h2 id="zheen-title" class="section-title">Meet Zheen.</h2>
+        <p class="eyebrow">The artist behind the work</p>
+        <h2 id="zheen-title" class="display">More than a treatment. <em>A personal experience.</em></h2>
         <p>
           Blush Beauty by Zee is an independent beauty business based in Orléans, Ottawa. Get to know the artist,
           her approach and the experience she wants clients to have.
         </p>
-        <a class="btn btn--light" href="/about">Read Zheen's Story</a>
+        <ul class="checks" role="list">
+          <li>In-depth consultation and colour mapping</li>
+          <li>Pigment selection for your own tone</li>
+          <li>Gentle, precise technique</li>
+          <li>Clear healing guidance and follow-up</li>
+        </ul>
+        <a class="btn btn--plum" href="/about">Read Zheen's Story <span aria-hidden="true">→</span></a>
       </div>
+      <p class="zheen__script" aria-hidden="true">Artistry<br />Precision<br />Care</p>
     </div>
   </section>
 
-  <!-- H09 -->
-  <section class="journey" aria-labelledby="journey-title" data-journey>
-    <div class="container">
-      <p class="eyebrow">Your experience</p>
-      <h2 id="journey-title" class="section-title">Know what comes next.</h2>
-      <p class="section-lead">
-        From learning about a treatment to receiving aftercare instructions, you'll find clear information at
-        every step.
-      </p>
-      <div class="journey__track">
-      <span class="journey__line" aria-hidden="true" data-journey-line></span>
-      <ol class="journey__list">
-        {journey.map(([title, text], i) => (
-          <li class="journey__step" data-reveal>
-            <span class="journey__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </li>
-        ))}
-      </ol>
+  <!-- H08 process videos -->
+  <section class="motion-reel" aria-labelledby="reel-title">
+    <div class="container reel__head" data-reveal>
+      <div>
+        <p class="eyebrow eyebrow--pink">See the artistry in motion</p>
+        <h2 id="reel-title" class="display display--light">From preparation <em>to final result.</em></h2>
       </div>
+      <a class="btn btn--pink" href={INSTAGRAM_URL} target="_blank" rel="noopener">Watch on Instagram <span aria-hidden="true">→</span></a>
+    </div>
+    <ul class="reel-row container" role="list">
+      <li><PhotoSlot brief="R23" label="Consultation & colour matching" ratio="3 / 4" play /></li>
+      <li><PhotoSlot brief="R24" label="Pigment preparation" ratio="3 / 4" play /></li>
+      <li><PhotoSlot brief="R25" label="The treatment, up close" ratio="3 / 4" play /></li>
+      <li><PhotoSlot brief="R30" label="Healed result walkthrough" ratio="3 / 4" play /></li>
+    </ul>
+  </section>
+
+  <!-- H11 colour -->
+  <section class="colour" aria-labelledby="colour-title">
+    <div class="container colour__grid">
+      <div data-reveal>
+        <p class="eyebrow">Science meets art</p>
+        <h2 id="colour-title" class="display">Colour, <em>carefully considered.</em></h2>
+        <p>
+          Natural lip tone, pigment selection, healing and technique all shape the conversation about cosmetic lip
+          treatments.
+        </p>
+        <ul class="swatches" role="list">
+          <li><span style="--sw:#d98b8f"></span>Rosy nude</li>
+          <li><span style="--sw:#d9667f"></span>Warm pink</li>
+          <li><span style="--sw:#a24a63"></span>Mauve</li>
+          <li><span style="--sw:#7a3a3f"></span>Deep berry</li>
+        </ul>
+        <p class="fine-print">Illustrative colours only. A screen cannot predict an individual healed result.</p>
+      </div>
+      <Placeholder class="colour__img" src={pigment} sizes="(min-width: 900px) 40vw, 90vw" replaceWith="H09" />
     </div>
   </section>
 
-  <!-- H10: no approved reviews yet, so per the manuscript this links to Instagram instead of showing quotes. -->
-  <section class="voices container" aria-labelledby="voices-title">
-    <p class="eyebrow">Client voices</p>
-    <h2 id="voices-title" class="section-title">What clients have shared.</h2>
-    <p class="section-lead">Verified, permissioned reviews will appear here once Zheen approves them.</p>
-    <a class="btn btn--dark" href={INSTAGRAM_URL} target="_blank" rel="noopener">See Zheen's Instagram</a>
-  </section>
-
-  <!-- H12 -->
+  <!-- H12 FAQ -->
   <section id="faq" class="faq" aria-labelledby="faq-title">
     <div class="container faq__grid">
-      <div>
+      <div data-reveal>
         <p class="eyebrow">Good to know</p>
-        <h2 id="faq-title" class="section-title">Questions are welcome.</h2>
+        <h2 id="faq-title" class="display">Questions are <em>welcome.</em></h2>
         <p class="section-lead">Start with the essentials, then explore detailed answers on each treatment page.</p>
       </div>
       <div class="faq__list">
-        {faqs.map((f) => (
-          <details class="faq__item">
-            <summary>{f.q}</summary>
-            <p>{f.a}</p>
-          </details>
-        ))}
+        {
+          faqs.map((f) => (
+            <details class="faq__item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
       </div>
+    </div>
+  </section>
+
+  <!-- H10 voices: no approved reviews yet, so no quotes -->
+  <section class="voices" aria-labelledby="voices-title">
+    <div class="container voices__inner">
+      <div>
+        <p class="eyebrow">Kind words</p>
+        <h2 id="voices-title" class="display display--sm">What clients <em>are</em> saying.</h2>
+      </div>
+      <p class="voices__note">Verified reviews will appear here once Zheen approves them.</p>
+      <a class="voices__ig" href={INSTAGRAM_URL} target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
+        <span>Follow on Instagram<br /><strong>@blushbeautybyzee</strong></span>
+      </a>
     </div>
   </section>
 
   <!-- H14 + H15 -->
   <section class="closing" aria-labelledby="closing-title">
-    <div class="container">
-      <p class="eyebrow eyebrow--light">Visit / Contact</p>
-      <p class="closing__place">Based in Orléans, Ottawa.</p>
-      <h2 id="closing-title" class="closing__title">Your next step starts here.</h2>
-      <p class="closing__copy">
-        Take a closer look at the treatments, ask your questions, or book directly with Zheen.
-      </p>
+    <div class="container" data-reveal>
+      <p class="eyebrow eyebrow--pink">Based in Orléans, Ottawa</p>
+      <h2 id="closing-title" class="display display--light display--xl">Your next step <em>starts here.</em></h2>
+      <p>Take a closer look at the treatments, ask your questions, or book directly with Zheen.</p>
       <div class="cta-row">
-        <a class="btn btn--light" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment</a>
-        <a class="btn btn--ghost-light" href="#services">Browse All Services</a>
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="#lips">Browse All Services</a>
       </div>
     </div>
   </section>

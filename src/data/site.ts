@@ -6,68 +6,62 @@ export const SQUARE_BOOKING_URL =
   'https://book.squareup.com/appointments/lp3vdeg9qujfqs/location/LSSND4XM2G5RK/services';
 export const INSTAGRAM_URL = 'https://www.instagram.com/blushbeautybyzee/';
 
-export type Family = 'lip' | 'skin';
-
-export interface FeaturedService {
+export interface Service {
   name: string;
-  family: Family;
   blurb: string;
   price: string;
   href: string;
 }
 
-export const featured: FeaturedService[] = [
+export const lipServices: Service[] = [
   {
     name: 'Lip Blush',
-    family: 'lip',
     blurb: 'A soft-looking enhancement to natural lip color and definition.',
     price: '$350',
     href: '/services/lip-blush',
   },
   {
     name: 'Lip Neutralization',
-    family: 'lip',
     blurb: 'A specialized pigment approach for selected darker or uneven lip tones.',
     price: '$350',
     href: '/services/lip-neutralization',
   },
   {
     name: 'Lip Ombré',
-    family: 'lip',
     blurb: 'A graduated color effect for added dimension.',
     price: '$450',
     href: '/services/lip-ombre',
   },
+];
+
+export const skinServices: Service[] = [
   {
-    name: 'Inkless Stretch Mark Revision',
-    family: 'skin',
-    blurb: 'Explore treatments intended to improve the appearance or texture of stretch marks.',
+    name: 'Stretch Mark Revision',
+    blurb: 'Inkless treatments intended to improve the appearance or texture of stretch marks.',
     price: 'From $200',
     href: '/services/stretch-mark-revision',
   },
   {
     name: 'Scar Camouflage',
-    family: 'skin',
-    blurb: 'Specialized services for different types of visible scars and markings.',
+    blurb: 'Hypopigmented, hyperpigmented and post-surgical scar services.',
     price: 'From $200',
     href: '/services/scar-camouflage',
   },
   {
     name: 'Vitiligo Camouflage',
-    family: 'skin',
     blurb: 'Camouflage tattooing for selected stable areas. It does not treat or cure vitiligo.',
     price: 'From $200',
     href: '/services/vitiligo-camouflage',
   },
+  {
+    name: 'Radiation Marker Camouflage',
+    blurb: 'Discreet camouflage for small radiation tattoo markers.',
+    price: '$200',
+    href: '/services/radiation-marker-camouflage',
+  },
 ];
 
-export const journey = [
-  ['Explore', 'Review services, examples, pricing and important considerations.'],
-  ['Ask', 'Have questions? Contact Zheen or book a consultation when appropriate.'],
-  ['Prepare', 'Read the preparation guidance for your chosen procedure.'],
-  ['Treat', 'Follow the appointment and treatment process explained by Zheen.'],
-  ['Heal & Follow Up', 'Use the appropriate aftercare guidance and review the applicable touch-up arrangements.'],
-] as const;
+export const featured = [...lipServices, ...skinServices];
 
 // Answers from manuscript §25. Items marked verify still need Zheen's sign-off.
 export const faqs = [
@@ -90,7 +84,6 @@ export const faqs = [
   {
     q: 'How do touch-ups work?',
     a: 'Some lip services advertise a complimentary touch-up during a specific time window. The exact rules are being confirmed with Zheen and will be published here.',
-    verify: true,
   },
   {
     q: 'Where are appointments held?',

@@ -1,14 +1,24 @@
 ---
-import '@fontsource-variable/fraunces';
-import '@fontsource-variable/manrope';
+import '@fontsource-variable/playfair-display';
+import '@fontsource-variable/playfair-display/wght-italic.css';
+import '@fontsource-variable/montserrat';
+import '@fontsource/allura';
 import '../styles/global.css';
-import { SQUARE_BOOKING_URL } from '../data/site';
+import { SQUARE_BOOKING_URL, INSTAGRAM_URL } from '../data/site';
 
 interface Props {
   title: string;
   description: string;
+  overHero?: boolean;
 }
-const { title, description } = Astro.props;
+const { title, description, overHero = false } = Astro.props;
+const nav = [
+  ['Lip Services', '/#lips'],
+  ['Skin Services', '/#skin'],
+  ['Results', '/#results'],
+  ['About Zheen', '/#zheen'],
+  ['FAQs', '/#faq'],
+];
 ---
 
 <!doctype html>
@@ -18,66 +28,86 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#292529" />
+    <meta name="theme-color" content="#1d0c12" />
     <meta name="robots" content="noindex" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <script is:inline>
-      // Set before first paint so the animated intro does not flash its static layout.
-      // If you edit this script, update its sha256 hash in public/_headers.
-      if (matchMedia('(prefers-reduced-motion: no-preference)').matches && document.querySelector) {
-        document.documentElement.classList.add('motion');
-      }
-    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header" data-header>
+    <header class:list={['site-header', { 'is-over-hero': overHero }]} data-header>
       <a class="wordmark" href="/" aria-label="Blush Beauty by Zee — home">
         <span class="wordmark__main">Blush Beauty</span>
         <span class="wordmark__sub">by Zee</span>
       </a>
-      <nav class="site-nav" aria-label="Main">
-        <a href="/#services">Services</a>
-        <a href="/#results">Results</a>
-        <a href="/#zheen">Meet Zheen</a>
-        <a href="/#faq">FAQs</a>
+      <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
+        {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+        <a class="site-nav__book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment</a>
       </nav>
-      <a class="btn btn--book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Now</a>
+      <a class="btn btn--pink btn--sm site-header__book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">
+        Book Now <span aria-hidden="true">→</span>
+      </a>
+      <button class="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" data-menu-btn>
+        <span class="sr-only">Open menu</span>
+        <span class="menu-btn__bars" aria-hidden="true"></span>
+      </button>
     </header>
     <main id="main">
       <slot />
     </main>
     <footer class="site-footer">
-      <div class="container">
-        <p class="site-footer__lockup">Blush Beauty by Zee</p>
-        <p class="site-footer__desc">
-          Lip artistry and specialized skin camouflage and revision services in Orléans, Ottawa. Discover
-          Zheen's work, explore your options, and book your next appointment.
-        </p>
-        <div class="site-footer__cols">
-          <div>
-            <h2>Explore</h2>
-            <ul>
-              <li><a href="/services/lip-blush">Lip Blush</a></li>
-              <li><a href="/services/lip-neutralization">Lip Neutralization</a></li>
-              <li><a href="/services/lip-ombre">Lip Ombré</a></li>
-              <li><a href="/services/stretch-mark-revision">Stretch Mark Revision</a></li>
-              <li><a href="/services/scar-camouflage">Scar Camouflage</a></li>
-              <li><a href="/services/vitiligo-camouflage">Vitiligo Camouflage</a></li>
-            </ul>
-          </div>
-          <div>
-            <h2>Get in Touch</h2>
-            <ul>
-              <li><a href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Online</a></li>
-              <li><a href="https://www.instagram.com/blushbeautybyzee/" target="_blank" rel="noopener">Instagram</a></li>
-              <li>Orléans, Ottawa</li>
-            </ul>
-          </div>
+      <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+          <p class="wordmark wordmark--footer">
+            <span class="wordmark__main">Blush Beauty</span>
+            <span class="wordmark__sub">by Zee</span>
+          </p>
+          <p>
+            Lip artistry and specialized skin camouflage and revision services in Orléans, Ottawa. Discover Zheen's
+            work, explore your options, and book your next appointment.
+          </p>
         </div>
-        <p class="site-footer__note">Treatments, suitability and results vary by individual. Consultation may be recommended.</p>
-        <p class="site-footer__legal">© {new Date().getFullYear()} Blush Beauty by Zee. All rights reserved.</p>
+        <div>
+          <h2>Explore</h2>
+          <ul>
+            <li><a href="/services/lip-blush">Lip Blush</a></li>
+            <li><a href="/services/lip-neutralization">Lip Neutralization</a></li>
+            <li><a href="/services/lip-ombre">Lip Ombré</a></li>
+            <li><a href="/services/stretch-mark-revision">Stretch Mark Revision</a></li>
+            <li><a href="/services/scar-camouflage">Scar Camouflage</a></li>
+            <li><a href="/services/vitiligo-camouflage">Vitiligo Camouflage</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Get in Touch</h2>
+          <ul>
+            <li><a href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Online</a></li>
+            <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram @blushbeautybyzee</a></li>
+            <li>Orléans, Ottawa, Ontario</li>
+          </ul>
+        </div>
+      </div>
+      <div class="container site-footer__legal">
+        <p>Treatments, suitability and results vary by individual. Consultation may be recommended.</p>
+        <p>© {new Date().getFullYear()} Blush Beauty by Zee. All rights reserved.</p>
       </div>
     </footer>
+    <script>
+      // Mobile menu: plain toggle, closes on link tap and Escape.
+      const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+      const nav = document.querySelector<HTMLElement>('[data-nav]');
+      const label = btn?.querySelector('.sr-only');
+      const setOpen = (open: boolean) => {
+        btn?.setAttribute('aria-expanded', String(open));
+        document.documentElement.classList.toggle('menu-open', open);
+        if (label) label.textContent = open ? 'Close menu' : 'Open menu';
+      };
+      btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+      nav?.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('a')) setOpen(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    </script>
   </body>
 </html>

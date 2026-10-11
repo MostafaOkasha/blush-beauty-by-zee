@@ -1,0 +1,23 @@
+---
+// Temporary mood image cropped from the design mockups. These are AI-generated
+// and must be replaced with Zheen's own photography before launch: they must
+// never be presented as her results.
+// Styles live in global.css (.ph) so layout classes can position the wrapper.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt?: string;
+  class?: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  replaceWith: string;
+}
+const { src, alt = '', class: className, sizes = '100vw', loading = 'lazy', replaceWith } = Astro.props;
+---
+
+<div class:list={['ph', className]} data-placeholder-image={replaceWith}>
+  <Image src={src} alt={alt} sizes={sizes} loading={loading} widths={[src.width / 2, src.width]} />
+  <span class="ph__tag">Placeholder · {replaceWith}</span>
+</div>
