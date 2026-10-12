@@ -54,6 +54,10 @@ const isCurrent = (href: string) => {
       <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
         {nav.map(([label, href]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>)}
         <a class="site-nav__book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment</a>
+        <p class="site-nav__contact">
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener">@blushbeautybyzee</a>
+          <a href={`mailto:${policy.email}`}>{policy.email}</a>
+        </p>
       </nav>
       <a class="btn btn--pink btn--sm site-header__book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">
         Book Now <span aria-hidden="true">→</span>
@@ -109,6 +113,9 @@ const isCurrent = (href: string) => {
         <p>© {new Date().getFullYear()} Blush Beauty by Zee. All rights reserved.</p>
       </div>
     </footer>
+    <a class="book-bar" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener" data-book-bar>
+      Book now <span aria-hidden="true">→</span>
+    </a>
     <script>
       // Mobile menu: plain toggle, closes on link tap and Escape.
       const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
@@ -126,6 +133,32 @@ const isCurrent = (href: string) => {
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') setOpen(false);
       });
+
+      // Phones and tablets: a floating "Book now" once the page has scrolled past its
+      // opening screen, tucked away again over the closing call to action and footer.
+      const bar = document.querySelector<HTMLElement>('[data-book-bar]');
+      if (bar) {
+        let past = false;
+        let atEnd = false;
+        const update = () => bar.classList.toggle('is-shown', past && !atEnd);
+        const onScroll = () => {
+          const next = window.scrollY > window.innerHeight * 0.6;
+          if (next !== past) {
+            past = next;
+            update();
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        const ends = document.querySelectorAll('.closing, .site-footer');
+        const seen = new Set<Element>();
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) e.isIntersecting ? seen.add(e.target) : seen.delete(e.target);
+          atEnd = seen.size > 0;
+          update();
+        });
+        ends.forEach((el) => io.observe(el));
+      }
 
       // Arriving from another page with #section: the browser jumps before fonts and
       // images settle, so land again once the page has finished loading.
