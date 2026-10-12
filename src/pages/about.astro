@@ -1,0 +1,149 @@
+---
+// About Zheen (manuscript §18). Story, training and quote are MOCK copy for the
+// demo; replace with Zheen's own words and verified credentials before launch.
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import portrait from '../assets/chat_gpt_images/R01-artist-portrait.png';
+import studioConsult from '../assets/chat_gpt_images/R23-reel-consultation.png';
+import studioTools from '../assets/chat_gpt_images/H11-tools-flat-lay.png';
+import studioPrep from '../assets/chat_gpt_images/R24-reel-pigment-prep.png';
+import { SQUARE_BOOKING_URL, INSTAGRAM_URL, policy, reviews } from '../data/site';
+
+const training = [
+  { year: '2019', title: 'Permanent makeup foundations', text: 'Colour theory, skin anatomy, hygiene and machine technique.' },
+  { year: '2021', title: 'Advanced lip blush & neutralization', text: 'Pigment correction for deeper lip tones and Fitzpatrick IV–VI skin.' },
+  { year: '2022', title: 'Paramedical camouflage', text: 'Scar, stretch mark and vitiligo camouflage, and inkless revision.' },
+  { year: 'Ongoing', title: 'Infection prevention & first aid', text: 'Renewed regularly in line with Ottawa public health requirements.' },
+];
+---
+
+<Base title="Meet Zheen | Blush Beauty by Zee Ottawa" description="Meet Zheen, the artist behind Blush Beauty by Zee in Orléans, Ottawa.">
+  <section class="svc-hero" aria-labelledby="about-title">
+    <div class="container svc-hero__grid">
+      <div class="svc-hero__copy">
+        <p class="eyebrow">Meet the artist</p>
+        <h1 id="about-title" class="display svc-hero__title">Meet <em>Zheen.</em></h1>
+        <p class="section-lead">
+          The artist behind Blush Beauty by Zee, an independent beauty studio in Orléans, Ottawa, working across lip
+          artistry and specialized skin camouflage.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn--plum" href="/results">Explore Her Work <span aria-hidden="true">→</span></a>
+          <a class="btn btn--outline" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment</a>
+        </div>
+      </div>
+      <div class="svc-hero__media" data-photo-slot="R01">
+        <Image src={portrait} alt="Zheen in her studio" widths={[600, 1122]} sizes="(min-width: 900px) 45vw, 100vw" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="svc-about" aria-labelledby="story-title">
+    <div class="container svc-about__grid">
+      <article class="svc-block" data-reveal>
+        <h2 id="story-title" class="display display--sm">The person behind the details.</h2>
+        <p>
+          I started in permanent makeup because I saw how much a small change could do for someone's confidence. Very
+          quickly, clients with deeper lip tones and skin started asking me questions most artists couldn't answer.
+          Learning to work with those tones properly became the heart of what I do.
+        </p>
+        <p>
+          The camouflage work came from the same place. A client asked if I could help with a scar she'd hidden for ten
+          years. Helping her feel comfortable in a sleeveless top again is still one of my favourite days in the studio.
+        </p>
+      </article>
+      <article class="svc-block" data-reveal>
+        <h2 class="display display--sm">Why lips and skin.</h2>
+        <p>
+          Both come down to the same skills: reading skin, understanding colour and being honest about what pigment can
+          and can't do. Every appointment starts with a conversation, and nobody leaves with a result they didn't
+          choose.
+        </p>
+        <blockquote class="about-quote">
+          “I want you to feel informed about your options before deciding on a treatment. My work is personal, and
+          questions are always welcome.”
+          <cite>Zheen</cite>
+        </blockquote>
+      </article>
+    </div>
+  </section>
+
+  <section class="svc-steps" aria-labelledby="training-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Skills and background</p>
+        <h2 id="training-title" class="display">Training <em>and technique.</em></h2>
+      </div>
+      <ol class="steps" role="list">
+        {
+          training.map((t) => (
+            <li class="step" data-reveal>
+              <span class="step__n">{t.year}</span>
+              <h3>{t.title}</h3>
+              <p>{t.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="studio" aria-labelledby="studio-title">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow eyebrow--pink">The studio</p>
+          <h2 id="studio-title" class="display display--light">A space to ask questions <em>and feel at ease.</em></h2>
+        </div>
+        <p class="section-lead">
+          A private, appointment-only studio in Orléans. {policy.hours}. Single-use needles, sealed pigments and a calm
+          room, one client at a time.
+        </p>
+      </div>
+      <div class="studio-grid">
+        <Image class="studio-grid__a" src={studioConsult} alt="Colour matching during a consultation" widths={[543, 1086]} sizes="(min-width: 900px) 40vw, 100vw" />
+        <Image class="studio-grid__b" src={studioTools} alt="Sterile tools and pigments laid out before an appointment" widths={[768, 1536]} sizes="(min-width: 900px) 55vw, 100vw" />
+        <Image class="studio-grid__c" src={studioPrep} alt="Pigment being prepared" widths={[543, 1086]} sizes="(min-width: 900px) 27vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="voices voices--quotes" aria-labelledby="voices-title">
+    <div class="container">
+      <p class="eyebrow">Kind words</p>
+      <h2 id="voices-title" class="display display--sm">What clients <em>are</em> saying.</h2>
+      <ul class="quotes" role="list">
+        {
+          reviews.map((r) => (
+            <li class="quote" data-reveal>
+              <p>“{r.quote}”</p>
+              <span class="quote__by">
+                {r.name} · {r.service}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <div class="container">
+      <p class="eyebrow eyebrow--pink">Say hello</p>
+      <h2 id="closing-title" class="display display--light display--xl">Questions are <em>welcome.</em></h2>
+      <p>
+        Email <a href={`mailto:${policy.email}`}>{policy.email}</a>, message
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener">@blushbeautybyzee</a>, or book a consultation.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="/results">See Real Results</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { initHomeMotion } from '../scripts/home-motion';
+  initHomeMotion();
+</script>

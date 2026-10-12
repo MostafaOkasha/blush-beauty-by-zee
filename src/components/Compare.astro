@@ -1,0 +1,44 @@
+---
+// Before / healed slider. With several pairs, filter pills inside the nearest
+// [data-compare-group] switch between them (see initCompare in home-motion.ts).
+import { Image } from 'astro:assets';
+import type { ComparePair } from '../data/services';
+
+interface Props {
+  pairs: ComparePair[];
+  caption?: boolean;
+  sizes?: string;
+  class?: string;
+}
+const { pairs, caption = true, sizes = '(min-width: 980px) 45vw, 100vw', class: className } = Astro.props;
+---
+
+<div class:list={['compare', className]} data-compare data-reveal>
+  {
+    pairs.map((p, i) => (
+      <div class:list={['compare__set', { 'is-active': i === 0 }]} data-compare-set={p.key} data-photo-slot={p.brief}>
+        <Image class="compare__img" src={p.before} alt={`${p.key}, before`} widths={[800, p.before.width]} sizes={sizes} />
+        <div class="compare__after">
+          <Image class="compare__img" src={p.after} alt={`${p.key}, healed`} widths={[800, p.after.width]} sizes={sizes} />
+        </div>
+      </div>
+    ))
+  }
+  <div class="compare__pane compare__pane--before">
+    <span>Before</span>
+  </div>
+  <div class="compare__pane compare__pane--after">
+    <span>Healed</span>
+  </div>
+  <span class="compare__handle" aria-hidden="true">‹ ›</span>
+  <input
+    class="compare__range"
+    type="range"
+    min="0"
+    max="100"
+    value="50"
+    aria-label="Compare before and healed photos"
+    data-compare-range
+  />
+  {caption && <p class="compare__caption" data-compare-caption>{pairs[0].key}</p>}
+</div>

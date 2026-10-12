@@ -1,0 +1,94 @@
+---
+// Results gallery (manuscript §16). Cases are MOCK vision images until Zheen's
+// documented, consented cases replace them.
+import Base from '../layouts/Base.astro';
+import Compare from '../components/Compare.astro';
+import { pairs, serviceBySlug } from '../data/services';
+import { SQUARE_BOOKING_URL } from '../data/site';
+
+const cases = [
+  { pair: pairs.neutral, slug: 'lip-neutralization', group: 'Neutralization', id: '01' },
+  { pair: pairs.blush, slug: 'lip-blush', group: 'Lip Blush', id: '02' },
+  { pair: pairs.ombre, slug: 'lip-ombre', group: 'Ombré', id: '03' },
+  { pair: pairs.scar, slug: 'scar-camouflage', group: 'Scars', id: '04' },
+];
+const groups = ['All Results', ...cases.map((c) => c.group)];
+---
+
+<Base
+  title="Real Treatment Results | Blush Beauty by Zee Ottawa"
+  description="Explore examples of Zheen's lip and skin work, organized by service and treatment stage."
+>
+  <section class="page-hero" aria-labelledby="results-title">
+    <div class="container">
+      <p class="eyebrow">The portfolio</p>
+      <h1 id="results-title" class="display">Real work, <em>seen in detail.</em></h1>
+      <p class="section-lead">
+        Examples of Zheen's work, organized by service and treatment stage. Each person's appearance, healing and
+        outcome is individual.
+      </p>
+      <div class="gallery-filters" role="group" aria-label="Filter results" data-gallery-filters>
+        {groups.map((g, i) => <button type="button" class:list={['chip', { 'is-active': i === 0 }]} data-group={g}>{g}</button>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="cases" aria-label="Cases">
+    <div class="container case-grid">
+      {
+        cases.map((c) => (
+          <article class="case" data-case={c.group}>
+            <Compare pairs={[c.pair]} caption={false} sizes="(min-width: 900px) 45vw, 100vw" />
+            <div class="case__body">
+              <h2 class="case__title">
+                {c.pair.key} · Case {c.id}
+              </h2>
+              <p class="case__meta">
+                {c.pair.sessions} · {c.pair.stage}
+              </p>
+              <a class="case__link" href={`/services/${c.slug}`}>
+                About {serviceBySlug[c.slug].name} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <p class="container fine-print">
+      Shared with permission. Results are individual, and these photographs do not predict the outcome of another
+      client's treatment.
+    </p>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <div class="container">
+      <p class="eyebrow eyebrow--pink">Your turn</p>
+      <h2 id="closing-title" class="display display--light display--xl">Start with <em>a conversation.</em></h2>
+      <p>Not sure which treatment fits? A $25 consultation is the easiest place to begin.</p>
+      <div class="cta-row">
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book a Consultation <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="/#lips">Browse Services</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { initHomeMotion } from '../scripts/home-motion';
+  initHomeMotion();
+
+  // Gallery filter: show cases for one group, or all.
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-group]'));
+  const cases = Array.from(document.querySelectorAll<HTMLElement>('[data-case]'));
+  for (const chip of chips) {
+    chip.setAttribute('aria-pressed', String(chip.classList.contains('is-active')));
+    chip.addEventListener('click', () => {
+      for (const c of chips) {
+        c.classList.toggle('is-active', c === chip);
+        c.setAttribute('aria-pressed', String(c === chip));
+      }
+      const g = chip.dataset.group;
+      for (const el of cases) el.hidden = g !== 'All Results' && el.dataset.case !== g;
+    });
+  }
+</script>

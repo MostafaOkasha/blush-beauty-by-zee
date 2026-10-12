@@ -14,7 +14,7 @@ const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matche
 
 export function initHomeMotion() {
   initHeader();
-  initCompare();
+  qa('[data-compare]').forEach(initCompare);
   if (!reduceMotion()) initReveals();
   if (!reduceMotion() && matchMedia('(min-width: 980px) and (pointer: fine)').matches) {
     import('./hero-parallax')
@@ -68,11 +68,10 @@ function initReveals() {
  * middle; the first time the slider scrolls into view it sweeps once to show
  * it can be dragged. Any drag cancels the animation immediately.
  */
-function initCompare() {
-  const compare = document.querySelector<HTMLElement>('[data-compare]');
-  const range = compare?.querySelector<HTMLInputElement>('[data-compare-range]');
-  const caption = compare?.querySelector<HTMLElement>('[data-compare-caption]');
-  if (!compare || !range) return;
+function initCompare(compare: HTMLElement) {
+  const range = compare.querySelector<HTMLInputElement>('[data-compare-range]');
+  const caption = compare.querySelector<HTMLElement>('[data-compare-caption]');
+  if (!range) return;
 
   let pos = Number(range.value);
   let frame = 0;
@@ -119,7 +118,7 @@ function initCompare() {
   io.observe(compare);
 
   const sets = qa('[data-compare-set]', compare);
-  const pills = qa<HTMLButtonElement>('[data-filter]');
+  const pills = qa<HTMLButtonElement>('[data-filter]', compare.closest('[data-compare-group]') ?? compare);
   for (const pill of pills) {
     pill.setAttribute('aria-pressed', String(pill.classList.contains('is-active')));
     pill.addEventListener('click', () => {
