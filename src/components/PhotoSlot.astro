@@ -1,0 +1,86 @@
+---
+// A clearly marked placeholder for a real photograph or video that still needs
+// to be shot or supplied. `brief` is the shot code from the prompt pack (R01–R36).
+// Search the codebase for `data-photo-slot` to find every slot left to fill.
+interface Props {
+  brief: string;
+  label: string;
+  ratio?: string;
+  tone?: 'light' | 'dark';
+  play?: boolean;
+  class?: string;
+}
+const { brief, label, ratio = '4 / 5', tone = 'dark', play = false, class: className } = Astro.props;
+---
+
+<figure class:list={['photo-slot', `photo-slot--${tone}`, className]} style={`aspect-ratio: ${ratio}`} data-photo-slot={brief}>
+  <span class="photo-slot__tag">Photo slot · {brief}</span>
+  {
+    play && (
+      <span class="photo-slot__play" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z" fill="currentColor" /></svg>
+      </span>
+    )
+  }
+  <figcaption class="photo-slot__label">{label}</figcaption>
+</figure>
+
+<style>
+  .photo-slot {
+    position: relative;
+    margin: 0;
+    display: grid;
+    place-items: end start;
+    padding: 1rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .photo-slot--light {
+    background:
+      radial-gradient(120% 90% at 20% 10%, rgb(255 255 255 / 0.55), transparent 60%),
+      linear-gradient(160deg, #f6d9e1, #e9b8c6);
+    color: var(--plum);
+    outline: 1px dashed rgb(108 31 58 / 0.35);
+    outline-offset: -8px;
+  }
+  .photo-slot--dark {
+    background:
+      radial-gradient(120% 90% at 30% 15%, rgb(233 135 160 / 0.28), transparent 60%),
+      linear-gradient(160deg, #4a1c2c, #24101a);
+    color: var(--cream);
+    outline: 1px dashed rgb(250 232 237 / 0.28);
+    outline-offset: -8px;
+  }
+  .photo-slot__tag {
+    position: absolute;
+    top: 0.9rem;
+    left: 1rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+  .photo-slot__play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: grid;
+    place-items: center;
+    opacity: 0.85;
+  }
+  .photo-slot__play svg {
+    width: 1.3rem;
+  }
+  .photo-slot__label {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1.2;
+    max-width: 18ch;
+  }
+</style>

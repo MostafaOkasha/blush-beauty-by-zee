@@ -1,0 +1,28 @@
+---
+// Placeholder pages so every homepage link resolves while the real pages are built.
+import Base from '../layouts/Base.astro';
+import { featured, SQUARE_BOOKING_URL } from '../data/site';
+
+export function getStaticPaths() {
+  return [
+    ...featured.map((s) => ({ params: { slug: s.href.slice(1) }, props: { title: s.name, price: s.price } })),
+    { params: { slug: 'results' }, props: { title: 'Real Results' } },
+    { params: { slug: 'about' }, props: { title: 'Meet Zheen' } },
+  ];
+}
+
+const { title, price } = Astro.props as { title: string; price?: string };
+---
+
+<Base title={`${title} | Blush Beauty by Zee`} description={`${title} with Zheen in Orléans, Ottawa.`}>
+  <section class="container stub">
+    <p class="eyebrow">Coming soon</p>
+    <h1 class="display">{title}</h1>
+    {price && <p class="price">{price}</p>}
+    <p class="section-lead">This page is being written from the site manuscript and will be reviewed by Zheen.</p>
+    <div class="cta-row">
+      <a class="btn btn--plum" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Now</a>
+      <a class="btn btn--outline" href="/">Back to home</a>
+    </div>
+  </section>
+</Base>
