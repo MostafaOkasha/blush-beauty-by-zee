@@ -184,7 +184,10 @@ const icons = {
                 />
                 <span class="skin-tile__name">{s.name}</span>
                 <span class="skin-tile__blurb">{s.blurb}</span>
-                <span class="skin-tile__price">{s.price}</span>
+                <span class="skin-tile__price">
+                  <span>{s.price}</span>
+                  <span class="skin-tile__more">View <span aria-hidden="true">→</span></span>
+                </span>
               </a>
             </li>
           ))
