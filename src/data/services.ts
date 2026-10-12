@@ -61,13 +61,13 @@ const lipProcess = 'lip';
 export const steps: Record<string, { title: string; text: string }[]> = {
   [lipProcess]: [
     { title: 'Consultation', text: 'Talk through your natural lip tone, goals and any health considerations.' },
-    { title: 'Shade & shape', text: 'Zheen maps the shape and tests pigment options against your skin.' },
+    { title: 'Shade & shape', text: 'We map the shape and test pigment options against your skin.' },
     { title: 'Treatment', text: 'Numbing, then careful layering of pigment over about three hours.' },
     { title: 'Healing', text: 'Colour looks bolder at first, then softens over 4 to 6 weeks.' },
     { title: 'Touch-up', text: 'A follow-up at 6 to 8 weeks refines colour and evens any light spots.' },
   ],
   skin: [
-    { title: 'Consultation', text: 'Zheen looks at the area, its history and whether it has fully matured.' },
+    { title: 'Consultation', text: 'We assess the area, its history and whether it has fully matured.' },
     { title: 'Patch test', text: 'A small test area checks how your skin responds before treating.' },
     { title: 'Treatment', text: 'Precise work on the marked area, at a pace that suits your skin.' },
     { title: 'Healing', text: 'The area settles over several weeks; follow the aftercare closely.' },
@@ -85,7 +85,7 @@ export const services: ServicePage[] = [
     category: 'Lip Artistry',
     title: 'Lip Blush in Ottawa | Blush Beauty by Zee',
     description:
-      'Explore lip blush with Zheen in Orléans, Ottawa. Learn about the technique, pricing, healing considerations, documented results and booking.',
+      'Explore lip blush in Orléans, Ottawa. Learn about the technique, pricing, healing considerations, documented results and booking.',
     eyebrow: 'Lip artistry',
     h1: 'Lip blush,',
     h1em: 'thoughtfully done.',
@@ -127,7 +127,7 @@ export const services: ServicePage[] = [
     category: 'Lip Artistry',
     title: 'Dark Lip Neutralization in Ottawa | Blush Beauty by Zee',
     description:
-      'Dark lip neutralization with Zheen in Orléans, Ottawa: how it differs from lip blush, what to expect over time, pricing and booking.',
+      'Dark lip neutralization in Orléans, Ottawa: how it differs from lip blush, what to expect over time, pricing and booking.',
     eyebrow: 'Lip artistry',
     h1: 'A considered approach to',
     h1em: 'uneven lip tones.',
@@ -147,7 +147,7 @@ export const services: ServicePage[] = [
       },
       {
         heading: 'Understanding darker lip tones.',
-        body: 'Darker natural lip tones are normal. Wanting to change their appearance is a cosmetic preference, not a condition that needs treatment. Zheen will talk through the look you want and the limits of cosmetic pigments.',
+        body: 'Darker natural lip tones are normal. Wanting to change their appearance is a cosmetic preference, not a condition that needs treatment. We will talk through the look you want and the limits of cosmetic pigments.',
       },
     ],
     pricing: [
@@ -158,7 +158,7 @@ export const services: ServicePage[] = [
     faqs: [
       {
         q: 'How many sessions will I need?',
-        a: 'Many darker lips need two sessions: one to neutralize, and one to add the final colour. Zheen will suggest a plan after seeing your lips.',
+        a: 'Many darker lips need two sessions: one to neutralize, and one to add the final colour. We will suggest a plan after seeing your lips.',
       },
       {
         q: 'Will my lips turn pink?',
@@ -176,7 +176,7 @@ export const services: ServicePage[] = [
     name: 'Lip Ombré',
     category: 'Lip Artistry',
     title: 'Lip Ombré in Ottawa | Blush Beauty by Zee',
-    description: 'Lip ombré with Zheen in Orléans, Ottawa: a graduated, dimensional lip colour. Pricing, healing and booking.',
+    description: 'Lip ombré in Orléans, Ottawa: a graduated, dimensional lip colour. Pricing, healing and booking.',
     eyebrow: 'Lip artistry',
     h1: 'Dimension',
     h1em: 'through color.',
@@ -192,7 +192,7 @@ export const services: ServicePage[] = [
       },
       {
         heading: 'Explore the finish.',
-        body: "See Zheen's work before choosing. Illustrative swatches are visual references only; they are not promises of the final pigment color.",
+        body: "See our healed work before choosing. Illustrative swatches are visual references only; they are not promises of the final pigment color.",
       },
     ],
     pricing: [{ label: 'Lip Ombré', price: '$450', note: 'About 3 hours, including shape mapping and numbing.' }, touchUp, deposit],
@@ -214,7 +214,7 @@ export const services: ServicePage[] = [
     category: 'Skin Revision & Camouflage',
     title: 'Inkless Stretch Mark Revision in Ottawa | Blush Beauty by Zee',
     description:
-      'Inkless stretch mark revision with Zheen in Orléans, Ottawa. Area pricing, what to expect and how to book a consultation.',
+      'Inkless stretch mark revision in Orléans, Ottawa. Area pricing, what to expect and how to book a consultation.',
     eyebrow: 'Skin revision',
     h1: 'Understand your',
     h1em: 'stretch mark options.',
@@ -259,11 +259,11 @@ export const services: ServicePage[] = [
     category: 'Skin Revision & Camouflage',
     title: 'Scar Camouflage & Revision in Ottawa | Blush Beauty by Zee',
     description:
-      'Scar camouflage with Zheen in Orléans, Ottawa: hypopigmented, hyperpigmented and post-surgical scars. Pricing and consultation.',
+      'Scar camouflage in Orléans, Ottawa: hypopigmented, hyperpigmented and post-surgical scars. Pricing and consultation.',
     eyebrow: 'Scar-related services',
     h1: 'Different scars.',
     h1em: 'Different considerations.',
-    lead: 'Scars vary in color, texture, age, location and history. Explore the scar-related services Zheen offers and the questions to discuss before booking.',
+    lead: 'Scars vary in color, texture, age, location and history. Explore the scar-related services we offer and the questions to discuss before booking.',
     price: 'From $200',
     duration: '30 minutes to 2 hours',
     hero: scarHero,
@@ -302,7 +302,7 @@ export const services: ServicePage[] = [
     category: 'Skin Revision & Camouflage',
     title: 'Vitiligo Camouflage Tattoo in Ottawa | Blush Beauty by Zee',
     description:
-      'Vitiligo camouflage tattooing with Zheen in Orléans, Ottawa, for selected stable areas. Suitability, pricing and consultation.',
+      'Vitiligo camouflage tattooing in Orléans, Ottawa, for selected stable areas. Suitability, pricing and consultation.',
     eyebrow: 'Specialized camouflage',
     h1: 'Vitiligo camouflage,',
     h1em: 'with careful consideration.',
@@ -344,7 +344,7 @@ export const services: ServicePage[] = [
     name: 'Radiation Marker Camouflage',
     category: 'Skin Revision & Camouflage',
     title: 'Radiation Marker Camouflage in Ottawa | Blush Beauty by Zee',
-    description: 'Discreet camouflage for small radiation tattoo markers with Zheen in Orléans, Ottawa.',
+    description: 'Discreet camouflage for small radiation tattoo markers in Orléans, Ottawa.',
     eyebrow: 'Specialized camouflage',
     h1: 'A quiet step,',
     h1em: 'after treatment.',
@@ -359,14 +359,14 @@ export const services: ServicePage[] = [
       },
       {
         heading: 'How camouflage helps.',
-        body: 'Zheen matches pigment to your skin tone so each dot blends in. Medical clearance may be needed first, and Zheen will confirm eligibility at consultation.',
+        body: 'Pigment is matched to your skin tone so each dot blends in. Medical clearance may be needed first, and eligibility is confirmed at consultation.',
       },
     ],
     pricing: [{ label: 'Radiation Marker Camouflage', price: '$200', note: 'About 2 hours, for all markers in one session.' }, deposit],
     faqs: [
       {
         q: 'Do I need my doctor’s approval?',
-        a: 'If you are still in treatment or follow-up, check with your care team first. Zheen may ask for medical clearance.',
+        a: 'If you are still in treatment or follow-up, check with your care team first. We may ask for medical clearance.',
       },
       {
         q: 'Will the dots be completely hidden?',
