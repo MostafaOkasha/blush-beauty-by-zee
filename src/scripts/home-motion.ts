@@ -103,7 +103,33 @@ function initCompare(compare: HTMLElement) {
     stop();
     render(Number(range.value));
   });
-  range.addEventListener('pointerdown', stop);
+  // Drag from anywhere on the photo. A range input alone only moves when the
+  // (invisible) thumb itself is grabbed on iOS, so pointer events drive the
+  // position and the input stays for keyboard and screen readers.
+  // touch-action: pan-y (CSS) keeps vertical page scrolling native.
+  let dragging = false;
+  const fromPointer = (e: PointerEvent) => {
+    const r = compare.getBoundingClientRect();
+    render(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)));
+  };
+  compare.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    stop();
+    dragging = true;
+    compare.setPointerCapture(e.pointerId);
+    compare.classList.add('is-dragging');
+    fromPointer(e);
+  });
+  compare.addEventListener('pointermove', (e) => {
+    if (dragging) fromPointer(e);
+  });
+  const end = () => {
+    dragging = false;
+    compare.classList.remove('is-dragging');
+  };
+  compare.addEventListener('pointerup', end);
+  compare.addEventListener('dragstart', (e) => e.preventDefault());
+  compare.addEventListener('pointercancel', end);
   render(pos);
 
   // One sweep the first time the slider is mostly on screen.
