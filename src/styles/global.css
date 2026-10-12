@@ -2308,3 +2308,64 @@ ul:where([role='list']) {
     display: none;
   }
 }
+
+/* Current page in the menu. */
+.site-nav a[aria-current='page'] {
+  color: var(--pink-deep);
+}
+@media (min-width: 980px) {
+  .site-nav a {
+    position: relative;
+  }
+  .site-nav a[aria-current='page'] {
+    opacity: 1;
+  }
+  .site-nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.45rem;
+    height: 1px;
+    background: currentColor;
+  }
+  .site-header.is-over-hero .site-nav a[aria-current='page'] {
+    color: var(--pink);
+  }
+}
+@media (max-width: 979px) {
+  .site-nav a[aria-current='page'] {
+    color: var(--pink);
+  }
+}
+
+/* ---------- FAQ page ---------- */
+
+.faq--page {
+  padding-block: var(--section-y);
+}
+.faq-page {
+  display: grid;
+  gap: 3.5rem;
+}
+.faq-page__group {
+  display: grid;
+  gap: 1.25rem;
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+}
+@media (min-width: 900px) {
+  .faq-page__group {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 4rem;
+  }
+}
+.faq-page__more {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--berry);
+}
+.page-hero .gallery-filters .chip {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}

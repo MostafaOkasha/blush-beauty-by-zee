@@ -14,12 +14,23 @@ interface Props {
 }
 const { title, description, overHero = false } = Astro.props;
 const nav = [
-  ['Lip Services', '/#lips'],
-  ['Skin Services', '/#skin'],
-  ['Results', '/#results'],
-  ['About Zheen', '/#zheen'],
-  ['FAQs', '/#faq'],
+  ['Lip Services', '/services#lip'],
+  ['Skin Services', '/services#skin'],
+  ['Results', '/results'],
+  ['About Zheen', '/about'],
+  ['FAQs', '/faq'],
 ];
+// Highlight the menu item for the page you're on (service pages count as their category).
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const lipSlugs = ['lip-blush', 'lip-neutralization', 'lip-ombre'];
+const isCurrent = (href: string) => {
+  if (href.startsWith('/services#')) {
+    if (!path.startsWith('/services/')) return false;
+    const slug = path.split('/')[2];
+    return href.endsWith('#lip') ? lipSlugs.includes(slug) : !lipSlugs.includes(slug);
+  }
+  return path === href;
+};
 ---
 
 <!doctype html>
@@ -41,7 +52,7 @@ const nav = [
         <span class="wordmark__sub">by Zee</span>
       </a>
       <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
-        {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+        {nav.map(([label, href]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>)}
         <a class="site-nav__book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment</a>
       </nav>
       <a class="btn btn--pink btn--sm site-header__book" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">
