@@ -81,7 +81,7 @@ function initCompare() {
         p.classList.toggle('is-active', p === pill);
         p.setAttribute('aria-pressed', String(p === pill));
       }
-      if (caption) caption.textContent = `${pill.dataset.filter} · awaiting Zheen's healed photos`;
+      if (caption) caption.textContent = `${pill.dataset.filter}`;
     });
   }
 }

@@ -14,7 +14,7 @@ const { brief, label, ratio = '4 / 5', tone = 'dark', play = false, class: class
 ---
 
 <figure class:list={['photo-slot', `photo-slot--${tone}`, className]} style={`aspect-ratio: ${ratio}`} data-photo-slot={brief}>
-  <span class="photo-slot__tag">Photo slot · {brief}</span>
+  {/* <span class="photo-slot__tag">Photo slot · {brief}</span> */}
   {
     play && (
       <span class="photo-slot__play" aria-hidden="true">

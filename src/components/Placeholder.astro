@@ -19,5 +19,6 @@ const { src, alt = '', class: className, sizes = '100vw', loading = 'lazy', repl
 
 <div class:list={['ph', className]} data-placeholder-image={replaceWith}>
   <Image src={src} alt={alt} sizes={sizes} loading={loading} widths={[src.width / 2, src.width]} />
-  <span class="ph__tag">Placeholder · {replaceWith}</span>
+  {/* Visible tag hidden for now; data-placeholder-image still marks it for replacement. */}
+  {/* <span class="ph__tag">Placeholder · {replaceWith}</span> */}
 </div>
