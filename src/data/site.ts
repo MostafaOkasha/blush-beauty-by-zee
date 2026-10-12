@@ -67,7 +67,7 @@ export const featured = [...lipServices, ...skinServices];
 export const faqs = [
   {
     q: 'Which lip treatment should I explore?',
-    a: 'Neutralization focuses on particular darker or uneven lip tones and may require a different pigment strategy and treatment plan. Lip blush generally focuses on color enhancement. Zheen can help explain which approach is worth considering for your goals.',
+    a: 'Neutralization focuses on particular darker or uneven lip tones and may require a different pigment strategy and treatment plan. Lip blush generally focuses on color enhancement. We can help explain which approach is worth considering for your goals.',
   },
   {
     q: 'Will lip blush work on dark skin or darker lips?',
@@ -87,7 +87,7 @@ export const faqs = [
   },
   {
     q: 'Where are appointments held?',
-    a: 'Blush Beauty by Zee is based in Orléans, Ottawa. Follow the location information in your booking confirmation and contact Zheen if you need clarification.',
+    a: 'Blush Beauty by Zee is based in Orléans, Ottawa. Follow the location information in your booking confirmation and contact us if you need clarification.',
   },
 ];
 
@@ -99,14 +99,14 @@ export const policy = {
   consultation: '$25 for 30 minutes, applied to your treatment if you book within 30 days.',
   patchTest: '$35 for 15 minutes, recommended for sensitive skin or a history of reactions.',
   hours: 'By appointment, Tuesday to Saturday',
-  email: 'hello@blushbeautybyzee.com',
+  email: 'blushbeautybyzee@gmail.com',
 };
 
 // MOCK: sample client quotes for the demo. Replace with real, approved reviews.
 export const reviews = [
   {
     quote:
-      "I'd been self-conscious about my darker lips for years. Zheen explained every step, and the healed colour looks completely natural on me.",
+      "I'd been self-conscious about my darker lips for years. She explained every step, and the healed colour looks completely natural on me.",
     name: 'Amira K.',
     service: 'Lip Neutralization',
   },
