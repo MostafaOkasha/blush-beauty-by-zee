@@ -3,23 +3,30 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
 import Placeholder from '../components/Placeholder.astro';
-import heroWide from '../assets/placeholder/hero-wide.webp';
-import heroTall from '../assets/placeholder/hero-tall.webp';
-import lipBlush from '../assets/placeholder/lip-blush.webp';
-import lipNeutral from '../assets/placeholder/lip-neutralization.webp';
-import lipOmbre from '../assets/placeholder/lip-ombre.webp';
-import approach from '../assets/placeholder/approach.webp';
-import pigment from '../assets/placeholder/pigment.webp';
-import skinArt from '../assets/art/portal-skin.png';
+// AI mood images generated from the prompt pack (codes match its asset IDs). See src/assets/chat_gpt_images/README.md.
+import heroWide from '../assets/chat_gpt_images/H02-hero-partial-face.png';
+import heroTall from '../assets/chat_gpt_images/H03-hero-vertical.png';
+import lipPortal from '../assets/chat_gpt_images/H05-lip-portrait-alt.png';
+import skinPortal from '../assets/chat_gpt_images/H14-skin-art-direction.png';
+import lipBlush from '../assets/chat_gpt_images/H05-lip-portrait.png';
+import lipNeutral from '../assets/chat_gpt_images/L03-deep-skin-lips.png';
+import lipOmbre from '../assets/chat_gpt_images/H01-lip-macro.png';
+import skinStretch from '../assets/chat_gpt_images/H13-shoulder-skin.png';
+import skinScar from '../assets/chat_gpt_images/S09-scar-triptych.png';
+import skinVitiligo from '../assets/chat_gpt_images/S08-vitiligo-hand.png';
+import skinRadiation from '../assets/chat_gpt_images/S06-post-surgical-scar.png';
+import approach from '../assets/chat_gpt_images/H12-hands-detail.png';
+import pigment from '../assets/chat_gpt_images/H09-colour-swatches.png';
+import closingArt from '../assets/chat_gpt_images/H16-footer-ambient.png';
 import { getImage } from 'astro:assets';
 import { SQUARE_BOOKING_URL, INSTAGRAM_URL, lipServices, skinServices, faqs } from '../data/site';
 
 const lipImages = [lipBlush, lipNeutral, lipOmbre];
-const heroWideImg = await getImage({ src: heroWide, format: 'webp' });
-const heroTallImg = await getImage({ src: heroTall, format: 'webp' });
-const skinArtImg = await getImage({ src: skinArt, format: 'webp', width: 900 });
-// Skin tiles share one abstract texture, tinted per service until real photos exist.
-const skinTints = ['tint-1', 'tint-2', 'tint-3', 'tint-4'];
+const heroWideImg = await getImage({ src: heroWide, format: 'webp', width: 1672 });
+const heroTallImg = await getImage({ src: heroTall, format: 'webp', width: 941 });
+// Same order as skinServices: stretch marks, scar, vitiligo, radiation marker.
+const skinImages = [skinStretch, skinScar, skinVitiligo, skinRadiation];
+const skinBriefs = ['R15', 'R18', 'R22', 'R21'];
 const icons = {
   drop: 'M12 3c3.5 4.2 6 7.6 6 10.5A6 6 0 0 1 6 13.5C6 10.6 8.5 7.2 12 3z',
   tone: 'M4 12a8 8 0 0 1 16 0M4 12h16M7 16h10M9 20h6',
@@ -77,7 +84,7 @@ const icons = {
       </div>
       <div class="specialty-grid">
         <a class="specialty" href="#lips" data-specialty="lip" data-reveal>
-          <Image class="specialty__img" src={lipBlush} alt="" widths={[456]} sizes="(min-width: 760px) 50vw, 100vw" />
+          <Image class="specialty__img" src={lipPortal} alt="" widths={[600, 1122]} sizes="(min-width: 760px) 50vw, 100vw" />
           <span class="specialty__body">
             <span class="specialty__title">Lip Artistry</span>
             <span class="specialty__text">Lip blush, dark lip neutralization and ombré techniques.</span>
@@ -85,7 +92,7 @@ const icons = {
           <span class="arrow-circle" aria-hidden="true">→</span>
         </a>
         <a class="specialty" href="#skin" data-specialty="skin" data-reveal>
-          <Image class="specialty__img" src={skinArt} alt="" widths={[600, 900]} sizes="(min-width: 760px) 50vw, 100vw" />
+          <Image class="specialty__img" src={skinPortal} alt="" widths={[800, 1672]} sizes="(min-width: 760px) 50vw, 100vw" />
           <span class="specialty__body">
             <span class="specialty__title">Skin Revision &amp; Camouflage</span>
             <span class="specialty__text">Stretch marks, scars, vitiligo and radiation markers.</span>
@@ -150,12 +157,17 @@ const icons = {
           that call for careful camouflage or revision.
         </p>
       </div>
-      <ul class="skin-grid" role="list" style={`--skin-art: url(${skinArtImg.src})`}>
+      <ul class="skin-grid" role="list">
         {
           skinServices.map((s, i) => (
             <li class="skin-tile" data-reveal>
               <a href={s.href}>
-                <span class={`skin-tile__img ${skinTints[i]}`} aria-hidden="true" />
+                <Placeholder
+                  class="skin-tile__img"
+                  src={skinImages[i]}
+                  sizes="(min-width: 900px) 22vw, 45vw"
+                  replaceWith={skinBriefs[i]}
+                />
                 <span class="skin-tile__name">{s.name}</span>
                 <span class="skin-tile__blurb">{s.blurb}</span>
                 <span class="skin-tile__price">{s.price}</span>
@@ -331,6 +343,7 @@ const icons = {
 
   <!-- H14 + H15 -->
   <section class="closing" aria-labelledby="closing-title">
+    <Image class="closing__art" src={closingArt} alt="" widths={[836, 1672]} sizes="100vw" />
     <div class="container" data-reveal>
       <p class="eyebrow eyebrow--pink">Based in Orléans, Ottawa</p>
       <h2 id="closing-title" class="display display--light display--xl">Your next step <em>starts here.</em></h2>
