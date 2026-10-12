@@ -83,10 +83,42 @@ export const faqs = [
   },
   {
     q: 'How do touch-ups work?',
-    a: 'Some lip services advertise a complimentary touch-up during a specific time window. The exact rules are being confirmed with Zheen and will be published here.',
+    a: 'Lip treatments include a complimentary touch-up 6 to 8 weeks after your first session, once the colour has settled. Touch-ups booked after that window are $150.',
   },
   {
     q: 'Where are appointments held?',
     a: 'Blush Beauty by Zee is based in Orléans, Ottawa. Follow the location information in your booking confirmation and contact Zheen if you need clarification.',
+  },
+];
+
+// MOCK: demo values to show Zheen the finished layout. Every item here must be
+// confirmed or replaced with her real details before launch (manuscript §77).
+export const policy = {
+  deposit: '$50 deposit to reserve your appointment, applied to your treatment total.',
+  touchUp: 'Complimentary touch-up 6 to 8 weeks after your first lip session. Later touch-ups are $150.',
+  consultation: '$25 for 30 minutes, applied to your treatment if you book within 30 days.',
+  patchTest: '$35 for 15 minutes, recommended for sensitive skin or a history of reactions.',
+  hours: 'By appointment, Tuesday to Saturday',
+  email: 'hello@blushbeautybyzee.com',
+};
+
+// MOCK: sample client quotes for the demo. Replace with real, approved reviews.
+export const reviews = [
+  {
+    quote:
+      "I'd been self-conscious about my darker lips for years. Zheen explained every step, and the healed colour looks completely natural on me.",
+    name: 'Amira K.',
+    service: 'Lip Neutralization',
+  },
+  {
+    quote:
+      'She matched the colour so carefully. My scar is far less noticeable and I finally feel comfortable wearing tank tops again.',
+    name: 'Danielle R.',
+    service: 'Scar Camouflage',
+  },
+  {
+    quote: 'Calm, spotless studio and zero pressure. My lip blush healed into exactly the soft rosy shade we planned.',
+    name: 'Sophie L.',
+    service: 'Lip Blush',
   },
 ];
