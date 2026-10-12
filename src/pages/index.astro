@@ -34,7 +34,7 @@ const heroTallImg = await getImage({ src: heroTall, format: 'webp', width: 941 }
 const skinImages = [skinStretch, skinScar, skinVitiligo, skinRadiation];
 const skinBriefs = ['R15', 'R18', 'R22', 'R21'];
 // Before / healed pairs for the results slider; each is pixel-aligned so only the lips or skin change.
-const comparePairs = [pairs.neutral, pairs.blush, pairs.ombre, pairs.scar];
+const comparePairs = [pairs.blush, pairs.neutral, pairs.ombre, pairs.scar];
 const reels = [
   { brief: 'R23', label: 'Consultation & colour matching', src: reelConsult },
   { brief: 'R24', label: 'Pigment preparation', src: reelPrep },
@@ -208,8 +208,7 @@ const icons = {
       </div>
       <Compare pairs={comparePairs} />
       <div class="filters" role="group" aria-label="Filter results" data-filters>
-        <button type="button" class="pill is-active" data-filter="Lip Neutralization">All results</button>
-        <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button>
+        <button type="button" class="pill is-active" data-filter="Lip Blush">Lip Blush</button>
         <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
         <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
         <button type="button" class="pill" data-filter="Scar Camouflage">Skin</button>
