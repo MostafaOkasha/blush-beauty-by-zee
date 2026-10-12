@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import PhotoSlot from '../components/PhotoSlot.astro';
 import Placeholder from '../components/Placeholder.astro';
 // AI mood images generated from the prompt pack (codes match its asset IDs). See src/assets/chat_gpt_images/README.md.
 import heroWide from '../assets/chat_gpt_images/H02-hero-partial-face.png';
@@ -11,13 +10,22 @@ import skinPortal from '../assets/chat_gpt_images/H14-skin-art-direction.png';
 import lipBlush from '../assets/chat_gpt_images/H05-lip-portrait.png';
 import lipNeutral from '../assets/chat_gpt_images/L03-deep-skin-lips.png';
 import lipOmbre from '../assets/chat_gpt_images/H01-lip-macro.png';
-import skinStretch from '../assets/chat_gpt_images/H13-shoulder-skin.png';
-import skinScar from '../assets/chat_gpt_images/S09-scar-triptych.png';
+import skinStretch from '../assets/chat_gpt_images/S02-stretch-marks-arm.png';
+import skinScar from '../assets/chat_gpt_images/S06-scar-arm.png';
 import skinVitiligo from '../assets/chat_gpt_images/S08-vitiligo-hand.png';
 import skinRadiation from '../assets/chat_gpt_images/S06-post-surgical-scar.png';
 import approach from '../assets/chat_gpt_images/H12-hands-detail.png';
 import pigment from '../assets/chat_gpt_images/H09-colour-swatches.png';
-import closingArt from '../assets/chat_gpt_images/H16-footer-ambient.png';
+import closingArt from '../assets/chat_gpt_images/H16-footer-lips.png';
+import artistPortrait from '../assets/chat_gpt_images/R01-artist-portrait.png';
+import neutralBefore from '../assets/chat_gpt_images/R12-neutralization-before.png';
+import neutralHealed from '../assets/chat_gpt_images/R12-neutralization-healed.png';
+import ombreBefore from '../assets/chat_gpt_images/R13-ombre-before.png';
+import ombreHealed from '../assets/chat_gpt_images/R13-ombre-healed.png';
+import reelConsult from '../assets/chat_gpt_images/R23-reel-consultation.png';
+import reelPrep from '../assets/chat_gpt_images/R24-reel-pigment-prep.png';
+import reelTreatment from '../assets/chat_gpt_images/R25-reel-treatment.png';
+import reelHealed from '../assets/chat_gpt_images/R30-reel-healed.png';
 import { getImage } from 'astro:assets';
 import { SQUARE_BOOKING_URL, INSTAGRAM_URL, lipServices, skinServices, faqs } from '../data/site';
 
@@ -27,6 +35,18 @@ const heroTallImg = await getImage({ src: heroTall, format: 'webp', width: 941 }
 // Same order as skinServices: stretch marks, scar, vitiligo, radiation marker.
 const skinImages = [skinStretch, skinScar, skinVitiligo, skinRadiation];
 const skinBriefs = ['R15', 'R18', 'R22', 'R21'];
+// Before / healed pairs for the results slider. Each pair is pixel-aligned so only the lips change.
+// Add Lip Blush and Skin pairs here (and their filter pills below) once they exist.
+const comparePairs = [
+  { key: 'Lip Neutralization', brief: 'R12', before: neutralBefore, after: neutralHealed },
+  { key: 'Lip Ombré', brief: 'R13', before: ombreBefore, after: ombreHealed },
+];
+const reels = [
+  { brief: 'R23', label: 'Consultation & colour matching', src: reelConsult },
+  { brief: 'R24', label: 'Pigment preparation', src: reelPrep },
+  { brief: 'R25', label: 'The treatment, up close', src: reelTreatment },
+  { brief: 'R30', label: 'Healed result walkthrough', src: reelHealed },
+];
 const icons = {
   drop: 'M12 3c3.5 4.2 6 7.6 6 10.5A6 6 0 0 1 6 13.5C6 10.6 8.5 7.2 12 3z',
   tone: 'M4 12a8 8 0 0 1 16 0M4 12h16M7 16h10M9 20h6',
@@ -193,13 +213,33 @@ const icons = {
         <a class="btn btn--pink" href="/results">View Full Gallery <span aria-hidden="true">→</span></a>
       </div>
       <div class="compare" data-compare data-reveal>
+        {
+          comparePairs.map((p, i) => (
+            <div class:list={['compare__set', { 'is-active': i === 0 }]} data-compare-set={p.key} data-photo-slot={p.brief}>
+              <Image
+                class="compare__img"
+                src={p.before}
+                alt={`${p.key}, before`}
+                widths={[800, p.before.width]}
+                sizes="(min-width: 980px) 45vw, 100vw"
+              />
+              <div class="compare__after">
+                <Image
+                  class="compare__img"
+                  src={p.after}
+                  alt={`${p.key}, healed`}
+                  widths={[800, p.after.width]}
+                  sizes="(min-width: 980px) 45vw, 100vw"
+                />
+              </div>
+            </div>
+          ))
+        }
         <div class="compare__pane compare__pane--before">
           <span>Before</span>
-          {/* <small>Photo slot · R12</small> */}
         </div>
         <div class="compare__pane compare__pane--after" data-compare-after>
           <span>Healed</span>
-          {/* <small>Photo slot · R12</small> */}
         </div>
         <span class="compare__handle" aria-hidden="true" data-compare-handle>‹ ›</span>
         <input
@@ -215,10 +255,10 @@ const icons = {
       </div>
       <div class="filters" role="group" aria-label="Filter results" data-filters>
         <button type="button" class="pill is-active" data-filter="Lip Neutralization">All results</button>
-        <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button>
+        {/* <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button> */}
         <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
         <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
-        <button type="button" class="pill" data-filter="Skin camouflage">Skin</button>
+        {/* <button type="button" class="pill" data-filter="Skin camouflage">Skin</button> */}
       </div>
     </div>
   </section>
@@ -246,7 +286,9 @@ const icons = {
   <!-- H07 Meet Zheen -->
   <section id="zheen" class="zheen" aria-labelledby="zheen-title">
     <div class="container zheen__grid">
-      <PhotoSlot brief="R01" label="Zheen, flagship portrait in her studio" ratio="4 / 5" class="zheen__photo" />
+      <div class="zheen__photo" data-photo-slot="R01">
+        <Image src={artistPortrait} alt="Zheen in her studio" widths={[560, 1122]} sizes="(min-width: 900px) 460px, 100vw" />
+      </div>
       <div class="zheen__copy" data-reveal>
         <p class="eyebrow">The artist behind the work</p>
         <h2 id="zheen-title" class="display">More than a treatment. <em>A personal experience.</em></h2>
@@ -276,10 +318,19 @@ const icons = {
       <a class="btn btn--pink" href={INSTAGRAM_URL} target="_blank" rel="noopener">Watch on Instagram <span aria-hidden="true">→</span></a>
     </div>
     <ul class="reel-row container" role="list">
-      <li><PhotoSlot brief="R23" label="Consultation & colour matching" ratio="3 / 4" play /></li>
-      <li><PhotoSlot brief="R24" label="Pigment preparation" ratio="3 / 4" play /></li>
-      <li><PhotoSlot brief="R25" label="The treatment, up close" ratio="3 / 4" play /></li>
-      <li><PhotoSlot brief="R30" label="Healed result walkthrough" ratio="3 / 4" play /></li>
+      {
+        reels.map((r) => (
+          <li>
+            <a class="reel" href={INSTAGRAM_URL} target="_blank" rel="noopener" data-photo-slot={r.brief}>
+              <Image class="reel__img" src={r.src} alt="" widths={[543, 1086]} sizes="(min-width: 760px) 25vw, 62vw" />
+              <span class="reel__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z" fill="currentColor" /></svg>
+              </span>
+              <span class="reel__label">{r.label}</span>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </section>
 
