@@ -1027,7 +1027,31 @@ ul:where([role='list']) {
   border-radius: var(--radius);
   overflow: hidden;
   touch-action: pan-y;
+  background: var(--plum-700);
   box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.6);
+}
+/* One set per before/healed pair; filters crossfade between sets. */
+.compare__set {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-out);
+}
+.compare__set.is-active {
+  opacity: 1;
+}
+.compare__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+.compare__after {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--pos));
 }
 .compare__pane {
   position: absolute;
@@ -1046,17 +1070,16 @@ ul:where([role='list']) {
   font-size: 0.5625rem;
   opacity: 0.7;
 }
+.compare__pane {
+  pointer-events: none;
+  background: linear-gradient(to top, rgb(29 12 18 / 0.55), transparent 30%);
+}
 .compare__pane--before {
-  background:
-    radial-gradient(60% 50% at 50% 55%, #9b6a6a, transparent 75%),
-    linear-gradient(160deg, #6b4547, #3a2427);
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
 }
 .compare__pane--after {
   align-items: flex-end;
   text-align: right;
-  background:
-    radial-gradient(60% 50% at 50% 55%, #e48a9d, transparent 75%),
-    linear-gradient(160deg, #b85a72, #6c2a40);
   clip-path: inset(0 0 0 var(--pos));
 }
 .compare__handle {
@@ -1236,11 +1259,20 @@ ul:where([role='list']) {
 }
 .zheen__photo {
   max-width: 460px;
-  aspect-ratio: 4 / 3 !important;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--plum-700);
+}
+.zheen__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
 }
 @media (min-width: 900px) {
   .zheen__photo {
-    aspect-ratio: 4 / 5 !important;
+    aspect-ratio: 4 / 5;
   }
 }
 .zheen__copy > p:not(.eyebrow) {
@@ -1339,6 +1371,75 @@ ul:where([role='list']) {
   .reel-row {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+/* Reel cards: poster still, play button and label; links to Instagram. */
+.reel {
+  position: relative;
+  display: grid;
+  place-items: end start;
+  aspect-ratio: 3 / 4;
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--cream);
+  text-decoration: none;
+  background: var(--plum-700);
+}
+.reel__img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out);
+}
+.reel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(29 12 18 / 0.8), rgb(29 12 18 / 0.05) 50%, rgb(29 12 18 / 0.25));
+  transition: background-color 0.4s var(--ease-out);
+}
+.reel__play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  border: 1px solid rgb(251 233 238 / 0.85);
+  background: rgb(29 12 18 / 0.25);
+  backdrop-filter: blur(4px);
+  transition:
+    transform 0.45s var(--ease-out),
+    background-color 0.45s var(--ease-out),
+    color 0.45s var(--ease-out);
+}
+.reel__play svg {
+  width: 1.35rem;
+  margin-left: 0.15rem;
+}
+.reel__label {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.2;
+  max-width: 18ch;
+}
+.reel:hover .reel__img,
+.reel:focus-visible .reel__img {
+  transform: scale(1.06);
+}
+.reel:hover .reel__play,
+.reel:focus-visible .reel__play {
+  transform: scale(1.12);
+  background: var(--cream);
+  color: var(--berry);
 }
 
 /* ---------- colour ---------- */

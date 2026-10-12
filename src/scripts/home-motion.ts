@@ -62,17 +62,63 @@ function initReveals() {
   below.forEach((el) => io.observe(el));
 }
 
-/** Before / healed slider and its filter pills. Works on touch and keyboard. */
+/**
+ * Before / healed slider and its filter pills. Works on touch and keyboard.
+ * Filters crossfade between image pairs (CSS) and glide the handle back to the
+ * middle; the first time the slider scrolls into view it sweeps once to show
+ * it can be dragged. Any drag cancels the animation immediately.
+ */
 function initCompare() {
   const compare = document.querySelector<HTMLElement>('[data-compare]');
   const range = compare?.querySelector<HTMLInputElement>('[data-compare-range]');
   const caption = compare?.querySelector<HTMLElement>('[data-compare-caption]');
   if (!compare || !range) return;
 
-  const set = () => compare.style.setProperty('--pos', `${range.value}%`);
-  range.addEventListener('input', set);
-  set();
+  let pos = Number(range.value);
+  let frame = 0;
+  const render = (v: number) => {
+    pos = v;
+    range.value = String(Math.round(v));
+    compare.style.setProperty('--pos', `${v}%`);
+  };
+  const stop = () => cancelAnimationFrame(frame);
+  const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+  /** Animate the handle through the given stops, in percent. */
+  const glide = (stops: number[], ms: number) => {
+    stop();
+    if (reduceMotion()) return render(stops[stops.length - 1]);
+    const path = [pos, ...stops];
+    const seg = ms / (path.length - 1);
+    const t0 = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - t0) / seg, path.length - 1);
+      const i = Math.min(Math.floor(t), path.length - 2);
+      render(path[i] + (path[i + 1] - path[i]) * ease(t - i));
+      if (t < path.length - 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+  };
+
+  range.addEventListener('input', () => {
+    stop();
+    render(Number(range.value));
+  });
+  range.addEventListener('pointerdown', stop);
+  render(pos);
+
+  // One sweep the first time the slider is mostly on screen.
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      setTimeout(() => glide([28, 72, 50], 2200), 350);
+    },
+    { threshold: 0.6 },
+  );
+  io.observe(compare);
+
+  const sets = qa('[data-compare-set]', compare);
   const pills = qa<HTMLButtonElement>('[data-filter]');
   for (const pill of pills) {
     pill.setAttribute('aria-pressed', String(pill.classList.contains('is-active')));
@@ -81,7 +127,10 @@ function initCompare() {
         p.classList.toggle('is-active', p === pill);
         p.setAttribute('aria-pressed', String(p === pill));
       }
-      if (caption) caption.textContent = `${pill.dataset.filter}`;
+      const key = pill.dataset.filter;
+      for (const set of sets) set.classList.toggle('is-active', set.dataset.compareSet === key);
+      if (caption) caption.textContent = `${key}`;
+      glide([50], 600);
     });
   }
 }
