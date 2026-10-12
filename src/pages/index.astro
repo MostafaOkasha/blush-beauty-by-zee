@@ -20,6 +20,10 @@ import closingArt from '../assets/chat_gpt_images/H16-footer-lips.png';
 import artistPortrait from '../assets/chat_gpt_images/R01-artist-portrait.png';
 import neutralBefore from '../assets/chat_gpt_images/R12-neutralization-before.png';
 import neutralHealed from '../assets/chat_gpt_images/R12-neutralization-healed.png';
+import blushBefore from '../assets/chat_gpt_images/R11-blush-before.png';
+import blushHealed from '../assets/chat_gpt_images/R11-blush-healed.png';
+import scarBefore from '../assets/chat_gpt_images/R18-scar-before.png';
+import scarHealed from '../assets/chat_gpt_images/R18-scar-healed.png';
 import ombreBefore from '../assets/chat_gpt_images/R13-ombre-before.png';
 import ombreHealed from '../assets/chat_gpt_images/R13-ombre-healed.png';
 import reelConsult from '../assets/chat_gpt_images/R23-reel-consultation.png';
@@ -36,10 +40,11 @@ const heroTallImg = await getImage({ src: heroTall, format: 'webp', width: 941 }
 const skinImages = [skinStretch, skinScar, skinVitiligo, skinRadiation];
 const skinBriefs = ['R15', 'R18', 'R22', 'R21'];
 // Before / healed pairs for the results slider. Each pair is pixel-aligned so only the lips change.
-// Add Lip Blush and Skin pairs here (and their filter pills below) once they exist.
 const comparePairs = [
   { key: 'Lip Neutralization', brief: 'R12', before: neutralBefore, after: neutralHealed },
+  { key: 'Lip Blush', brief: 'R11', before: blushBefore, after: blushHealed },
   { key: 'Lip Ombré', brief: 'R13', before: ombreBefore, after: ombreHealed },
+  { key: 'Scar Camouflage', brief: 'R18', before: scarBefore, after: scarHealed },
 ];
 const reels = [
   { brief: 'R23', label: 'Consultation & colour matching', src: reelConsult },
@@ -255,10 +260,10 @@ const icons = {
       </div>
       <div class="filters" role="group" aria-label="Filter results" data-filters>
         <button type="button" class="pill is-active" data-filter="Lip Neutralization">All results</button>
-        {/* <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button> */}
+        <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button>
         <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
         <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
-        {/* <button type="button" class="pill" data-filter="Skin camouflage">Skin</button> */}
+        <button type="button" class="pill" data-filter="Scar Camouflage">Skin</button>
       </div>
     </div>
   </section>
