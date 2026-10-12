@@ -18,7 +18,7 @@ import skinVitiligo from '../assets/chat_gpt_images/S08-vitiligo-hand.png';
 import skinRadiation from '../assets/chat_gpt_images/H13-shoulder-skin.png';
 import approach from '../assets/chat_gpt_images/H12-hands-detail.png';
 import pigment from '../assets/chat_gpt_images/H09-colour-swatches.png';
-import closingArt from '../assets/chat_gpt_images/H16-footer-lips.png';
+import closingArt from '../assets/chat_gpt_images/H16-footer-ambient.png';
 import artistPortrait from '../assets/chat_gpt_images/R01-artist-portrait.png';
 import reelConsult from '../assets/chat_gpt_images/R23-reel-consultation.png';
 import reelPrep from '../assets/chat_gpt_images/R24-reel-pigment-prep.png';
@@ -27,7 +27,10 @@ import reelHealed from '../assets/chat_gpt_images/R30-reel-healed.png';
 import { getImage } from 'astro:assets';
 import { SQUARE_BOOKING_URL, INSTAGRAM_URL, lipServices, skinServices, faqs, reviews } from '../data/site';
 
-const lipImages = [lipBlush, lipNeutral, lipOmbre];
+// Retired homepage sections (specialties, approach, reels, colour) stay in the file below.
+const SHOW_RETIRED = false;
+// Ombré uses the treatment shot so no lip close-up repeats the hero.
+const lipImages = [lipBlush, lipNeutral, reelTreatment];
 const heroWideImg = await getImage({ src: heroWide, format: 'webp', width: 1672 });
 const heroTallImg = await getImage({ src: heroTall, format: 'webp', width: 941 });
 // Same order as skinServices: stretch marks, scar, vitiligo, radiation marker.
@@ -73,23 +76,212 @@ const icons = {
         <span class="line"><span>own <em>shade.</em></span></span>
       </h1>
       <p class="hero__lead" data-hero-in>
-        Thoughtful lip artistry and specialized skin treatments, personalized to your features and goals.
+        Lip blush and specialized skin camouflage, with colour chosen for your own tone.
       </p>
       <div class="cta-row" data-hero-in>
-        <a class="btn btn--pink" href="/services">Explore Services <span aria-hidden="true">→</span></a>
-        <a class="btn btn--outline-light" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Now</a>
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book Now <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="#services">Explore Services</a>
       </div>
-      <ul class="hero__trust" data-hero-in>
-        <li>Personalized colour approach</li>
-        <li>Lip &amp; skin specialist</li>
-        <li>By appointment in Orléans</li>
-      </ul>
+      <nav class="hero__services" aria-label="Treatments" data-hero-in>
+        {lipServices.map((s) => <a href={s.href}>{s.name}</a>)}
+        <a href="#skin">Skin Camouflage</a>
+      </nav>
     </div>
     <p class="hero__script" aria-hidden="true">Lips · Skin<br />Artistry</p>
     <p class="hero__scroll" aria-hidden="true">Scroll to discover</p>
   </section>
 
-  <!-- H02 two specialties -->
+  <!-- H04 services: lips and skin in one section, equal billing -->
+  <section id="services" class="services-home" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow">Services</p>
+          <h2 id="services-title" class="display">Lips and skin, <em>matched to you.</em></h2>
+        </div>
+        <p class="section-lead">
+          Three lip techniques and four specialized skin services. Every treatment starts with a consultation and a
+          colour plan chosen for your own tone.
+        </p>
+      </div>
+      <div id="lips" class="services-home__sub" data-reveal>
+        <h3>Lip artistry</h3>
+        <a href="/services#lip">All lip services <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <ul class="card-row container" role="list">
+      {
+        lipServices.map((s, i) => (
+          <li class="lip-card" data-reveal>
+            <a href={s.href} class="lip-card__link">
+              <Placeholder
+                class="lip-card__img"
+                src={lipImages[i]}
+                sizes="(min-width: 900px) 33vw, 80vw"
+                replaceWith={`R1${i + 1}`}
+              />
+              <span class="lip-card__title">{s.name}</span>
+              <span class="arrow-circle arrow-circle--light" aria-hidden="true">→</span>
+            </a>
+            <div class="lip-card__body">
+              <p>{s.blurb}</p>
+              <p class="lip-card__price">{s.price}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="container">
+      <div id="skin" class="services-home__sub" data-reveal>
+        <h3>Skin revision &amp; camouflage</h3>
+        <a href="/services#skin">All skin services <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="skin-grid" role="list">
+        {
+          skinServices.map((s, i) => (
+            <li class="skin-tile" data-reveal>
+              <a href={s.href}>
+                <Placeholder
+                  class="skin-tile__img"
+                  src={skinImages[i]}
+                  sizes="(min-width: 900px) 22vw, 40vw"
+                  replaceWith={skinBriefs[i]}
+                />
+                <span class="skin-tile__name">{s.name}</span>
+                <span class="skin-tile__blurb">{s.blurb}</span>
+                <span class="skin-tile__price">
+                  <span>{s.price}</span>
+                  <span class="skin-tile__more">View <span aria-hidden="true">→</span></span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="fine-print">Prices are from the current service list and may vary. Confirm details during booking.</p>
+    </div>
+  </section>
+
+  <!-- H06 real results -->
+  <section id="results" class="results" aria-labelledby="results-title">
+    <div class="container results__grid" data-compare-group>
+      <div class="results__intro" data-reveal>
+        <p class="eyebrow eyebrow--pink">Real results</p>
+        <h2 id="results-title" class="display display--light">Real work. <em>Real clients.</em></h2>
+        <p>
+          Explore real client photographs and healed results. Every result belongs to an individual; outcomes can
+          vary.
+        </p>
+        <a class="btn btn--pink" href="/results">View Full Gallery <span aria-hidden="true">→</span></a>
+      </div>
+      <Compare pairs={comparePairs} />
+      <div class="filters" role="group" aria-label="Filter results" data-filters>
+        <button type="button" class="pill is-active" data-filter="Lip Blush">Lip Blush</button>
+        <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
+        <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
+        <button type="button" class="pill" data-filter="Scar Camouflage">Skin</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- H07 Meet Zheen -->
+  <section id="zheen" class="zheen" aria-labelledby="zheen-title">
+    <div class="container zheen__grid">
+      <div class="zheen__media">
+        <div class="zheen__photo" data-photo-slot="R01">
+          <Image src={artistPortrait} alt="The artist in her studio" widths={[560, 1122]} sizes="(min-width: 900px) 460px, 100vw" />
+        </div>
+        <div class="zheen__inset" data-photo-slot="R23">
+          <Image src={reelConsult} alt="A colour consultation in the studio" widths={[300, 600]} sizes="(min-width: 900px) 200px, 38vw" />
+        </div>
+      </div>
+      <div class="zheen__copy" data-reveal>
+        <p class="eyebrow">The artist behind the work</p>
+        <h2 id="zheen-title" class="display">One artist, <em>start to finish.</em></h2>
+        <p>
+          An independent studio in Orléans, Ottawa. Every appointment is one-on-one, from the first colour
+          conversation to the healed result.
+        </p>
+        <ul class="checks" role="list">
+          <li>In-depth consultation and colour mapping</li>
+          <li>Pigment selection for your own tone</li>
+          <li>Gentle, precise technique</li>
+          <li>Clear healing guidance and follow-up</li>
+        </ul>
+        <a class="btn btn--plum" href="/about">Read Her Story <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="zheen__script" aria-hidden="true">Artistry<br />Precision<br />Care</p>
+    </div>
+  </section>
+
+  <!-- H10 voices. MOCK quotes for the demo: replace with real, approved reviews. -->
+  <section class="voices voices--quotes voices--dark" aria-labelledby="voices-title">
+    <div class="container">
+      <div class="voices__head">
+        <div>
+          <p class="eyebrow eyebrow--pink">Kind words</p>
+          <h2 id="voices-title" class="display display--sm display--light">What clients <em>are</em> saying.</h2>
+        </div>
+        <a class="voices__ig" href={INSTAGRAM_URL} target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
+          <span>Follow on Instagram<br /><strong>@blushbeautybyzee</strong></span>
+        </a>
+      </div>
+      <ul class="quotes" role="list">
+        {
+          reviews.map((r) => (
+            <li class="quote" data-reveal>
+              <p>“{r.quote}”</p>
+              <span class="quote__by">
+                {r.name} · {r.service}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- H12 FAQ -->
+  <section id="faq" class="faq" aria-labelledby="faq-title">
+    <div class="container faq__grid">
+      <div data-reveal>
+        <p class="eyebrow">Good to know</p>
+        <h2 id="faq-title" class="display">Questions are <em>welcome.</em></h2>
+        <p class="section-lead">Start with the essentials, then explore detailed answers on each treatment page.</p>
+        <a class="btn btn--plum" href="/faq">All Questions <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="faq__list">
+        {
+          faqs.map((f) => (
+            <details class="faq__item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- H14 + H15 -->
+  <section class="closing" aria-labelledby="closing-title">
+    <Image class="closing__art" src={closingArt} alt="" widths={[836, 1672]} sizes="100vw" />
+    <div class="container" data-reveal>
+      <p class="eyebrow eyebrow--pink">Based in Orléans, Ottawa</p>
+      <h2 id="closing-title" class="display display--light display--xl">Your next step <em>starts here.</em></h2>
+      <p>Take a closer look at the treatments, ask your questions, or book directly online.</p>
+      <div class="cta-row">
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="/services">Browse All Services</a>
+      </div>
+    </div>
+  </section>
+  {
+    /* Retired from the homepage to keep it short. Flip SHOW_RETIRED to bring them back. */
+    SHOW_RETIRED && (
+      <Fragment>
+  {/* H02 two specialties */}
   <section class="specialties" aria-labelledby="specialties-title">
     <div class="container">
       <div class="section-head" data-reveal>
@@ -117,109 +309,7 @@ const icons = {
     </div>
   </section>
 
-  <!-- H04a lip services -->
-  <section id="lips" class="lips" aria-labelledby="lips-title">
-    <div class="container">
-      <div class="section-head section-head--split" data-reveal>
-        <div>
-          <p class="eyebrow">Lip services</p>
-          <h2 id="lips-title" class="display">Find the perfect lip treatment <em>for you.</em></h2>
-        </div>
-        <p class="section-lead">
-          Three specialized techniques, each designed to enhance, balance or define, with a result chosen for your
-          natural lip tone.
-        </p>
-      </div>
-    </div>
-    <ul class="card-row container" role="list">
-      {
-        lipServices.map((s, i) => (
-          <li class="lip-card" data-reveal>
-            <a href={s.href} class="lip-card__link">
-              <Placeholder
-                class="lip-card__img"
-                src={lipImages[i]}
-                sizes="(min-width: 760px) 33vw, 80vw"
-                replaceWith={`R1${i + 1}`}
-              />
-              <span class="lip-card__title">{s.name}</span>
-              <span class="arrow-circle arrow-circle--light" aria-hidden="true">→</span>
-            </a>
-            <div class="lip-card__body">
-              <p>{s.blurb}</p>
-              <p class="lip-card__price">{s.price}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-    <p class="container fine-print">
-      Prices are from the current service list and may vary. Confirm details during booking.
-    </p>
-  </section>
-
-  <!-- H04b skin services: same weight as lips -->
-  <section id="skin" class="skin" aria-labelledby="skin-title">
-    <div class="container">
-      <div class="section-head section-head--split" data-reveal>
-        <div>
-          <p class="eyebrow">Specialized skin services</p>
-          <h2 id="skin-title" class="display">Expertise <em>beyond lips.</em></h2>
-        </div>
-        <p class="section-lead">
-          We also offer selected treatments for stretch marks, scars, vitiligo and radiation markers, areas
-          that call for careful camouflage or revision.
-        </p>
-      </div>
-      <ul class="skin-grid" role="list">
-        {
-          skinServices.map((s, i) => (
-            <li class="skin-tile" data-reveal>
-              <a href={s.href}>
-                <Placeholder
-                  class="skin-tile__img"
-                  src={skinImages[i]}
-                  sizes="(min-width: 900px) 22vw, 45vw"
-                  replaceWith={skinBriefs[i]}
-                />
-                <span class="skin-tile__name">{s.name}</span>
-                <span class="skin-tile__blurb">{s.blurb}</span>
-                <span class="skin-tile__price">
-                  <span>{s.price}</span>
-                  <span class="skin-tile__more">View <span aria-hidden="true">→</span></span>
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-      <a class="btn btn--plum" href="/services#skin">Explore Skin Services <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <!-- H06 real results -->
-  <section id="results" class="results" aria-labelledby="results-title">
-    <div class="container results__grid" data-compare-group>
-      <div class="results__intro" data-reveal>
-        <p class="eyebrow eyebrow--pink">Real results</p>
-        <h2 id="results-title" class="display display--light">Real work. <em>Real clients.</em></h2>
-        <p>
-          Explore real client photographs and healed results. Every result belongs to an individual; outcomes can
-          vary.
-        </p>
-        <a class="btn btn--pink" href="/results">View Full Gallery <span aria-hidden="true">→</span></a>
-      </div>
-      <Compare pairs={comparePairs} />
-      <div class="filters" role="group" aria-label="Filter results" data-filters>
-        <button type="button" class="pill is-active" data-filter="Lip Blush">Lip Blush</button>
-        <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
-        <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
-        <button type="button" class="pill" data-filter="Scar Camouflage">Skin</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Approach -->
+  {/* Approach */}
   <section class="approach" aria-labelledby="approach-title">
     <Placeholder class="approach__img" src={approach} sizes="(min-width: 900px) 50vw, 100vw" replaceWith="R07" />
     <div class="approach__copy" data-reveal>
@@ -239,32 +329,7 @@ const icons = {
     </div>
   </section>
 
-  <!-- H07 Meet Zheen -->
-  <section id="zheen" class="zheen" aria-labelledby="zheen-title">
-    <div class="container zheen__grid">
-      <div class="zheen__photo" data-photo-slot="R01">
-        <Image src={artistPortrait} alt="The artist in her studio" widths={[560, 1122]} sizes="(min-width: 900px) 460px, 100vw" />
-      </div>
-      <div class="zheen__copy" data-reveal>
-        <p class="eyebrow">The artist behind the work</p>
-        <h2 id="zheen-title" class="display">More than a treatment. <em>A personal experience.</em></h2>
-        <p>
-          Blush Beauty by Zee is an independent beauty business based in Orléans, Ottawa. Get to know the artist,
-          her approach and the experience she wants clients to have.
-        </p>
-        <ul class="checks" role="list">
-          <li>In-depth consultation and colour mapping</li>
-          <li>Pigment selection for your own tone</li>
-          <li>Gentle, precise technique</li>
-          <li>Clear healing guidance and follow-up</li>
-        </ul>
-        <a class="btn btn--plum" href="/about">Read Her Story <span aria-hidden="true">→</span></a>
-      </div>
-      <p class="zheen__script" aria-hidden="true">Artistry<br />Precision<br />Care</p>
-    </div>
-  </section>
-
-  <!-- H08 process videos -->
+  {/* H08 process videos */}
   <section class="motion-reel" aria-labelledby="reel-title">
     <div class="container reel__head" data-reveal>
       <div>
@@ -290,7 +355,7 @@ const icons = {
     </ul>
   </section>
 
-  <!-- H11 colour -->
+  {/* H11 colour */}
   <section class="colour" aria-labelledby="colour-title">
     <div class="container colour__grid">
       <div data-reveal>
@@ -312,69 +377,9 @@ const icons = {
     </div>
   </section>
 
-  <!-- H12 FAQ -->
-  <section id="faq" class="faq" aria-labelledby="faq-title">
-    <div class="container faq__grid">
-      <div data-reveal>
-        <p class="eyebrow">Good to know</p>
-        <h2 id="faq-title" class="display">Questions are <em>welcome.</em></h2>
-        <p class="section-lead">Start with the essentials, then explore detailed answers on each treatment page.</p>
-        <a class="btn btn--plum" href="/faq">All Questions <span aria-hidden="true">→</span></a>
-      </div>
-      <div class="faq__list">
-        {
-          faqs.map((f) => (
-            <details class="faq__item">
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- H10 voices. MOCK quotes for the demo: replace with real, approved reviews. -->
-  <section class="voices voices--quotes" aria-labelledby="voices-title">
-    <div class="container">
-      <div class="voices__head">
-        <div>
-          <p class="eyebrow">Kind words</p>
-          <h2 id="voices-title" class="display display--sm">What clients <em>are</em> saying.</h2>
-        </div>
-        <a class="voices__ig" href={INSTAGRAM_URL} target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
-          <span>Follow on Instagram<br /><strong>@blushbeautybyzee</strong></span>
-        </a>
-      </div>
-      <ul class="quotes" role="list">
-        {
-          reviews.map((r) => (
-            <li class="quote" data-reveal>
-              <p>“{r.quote}”</p>
-              <span class="quote__by">
-                {r.name} · {r.service}
-              </span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- H14 + H15 -->
-  <section class="closing" aria-labelledby="closing-title">
-    <Image class="closing__art" src={closingArt} alt="" widths={[836, 1672]} sizes="100vw" />
-    <div class="container" data-reveal>
-      <p class="eyebrow eyebrow--pink">Based in Orléans, Ottawa</p>
-      <h2 id="closing-title" class="display display--light display--xl">Your next step <em>starts here.</em></h2>
-      <p>Take a closer look at the treatments, ask your questions, or book directly online.</p>
-      <div class="cta-row">
-        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment <span aria-hidden="true">→</span></a>
-        <a class="btn btn--outline-light" href="/services">Browse All Services</a>
-      </div>
-    </div>
-  </section>
+      </Fragment>
+    )
+  }
 </Base>
 
 <script>
