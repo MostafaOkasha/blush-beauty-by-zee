@@ -28,7 +28,9 @@ deployed.
 | H16-footer-lips.png | H16 Footer final ambient photograph | Closing "Your next step" background |
 | R01-artist-portrait.png | Vision set | Meet Zheen portrait |
 | R12-neutralization-before.png, R12-neutralization-healed.png | Vision set | Results slider, Neutralization (default) |
+| R11-blush-before.png, R11-blush-healed.png | Vision set | Results slider, Lip Blush |
 | R13-ombre-before.png, R13-ombre-healed.png | Vision set | Results slider, Ombré |
+| R18-scar-before.png, R18-scar-healed.png | Vision set | Results slider, Skin. The "before" was made from the healed shot by repainting the pale scar, so the pair lines up exactly |
 | R23-reel-consultation.png, R24-reel-pigment-prep.png, R25-reel-treatment.png, R30-reel-healed.png | Vision set | The four reel cards |
 
 The vision set came from `docs/placeholder-prompts.md`. The healed slider images were colour-matched to their
