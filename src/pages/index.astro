@@ -41,8 +41,8 @@ const skinImages = [skinStretch, skinScar, skinVitiligo, skinRadiation];
 const skinBriefs = ['R15', 'R18', 'R22', 'R21'];
 // Before / healed pairs for the results slider. Each pair is pixel-aligned so only the lips change.
 const comparePairs = [
-  { key: 'Lip Neutralization', brief: 'R12', before: neutralBefore, after: neutralHealed },
   { key: 'Lip Blush', brief: 'R11', before: blushBefore, after: blushHealed },
+  { key: 'Lip Neutralization', brief: 'R12', before: neutralBefore, after: neutralHealed },
   { key: 'Lip Ombré', brief: 'R13', before: ombreBefore, after: ombreHealed },
   { key: 'Scar Camouflage', brief: 'R18', before: scarBefore, after: scarHealed },
 ];
@@ -256,11 +256,10 @@ const icons = {
           aria-label="Compare before and healed photos"
           data-compare-range
         />
-        <p class="compare__caption" data-compare-caption>Lip Neutralization</p>
+        <p class="compare__caption" data-compare-caption>Lip Blush</p>
       </div>
       <div class="filters" role="group" aria-label="Filter results" data-filters>
-        <button type="button" class="pill is-active" data-filter="Lip Neutralization">All results</button>
-        <button type="button" class="pill" data-filter="Lip Blush">Lip Blush</button>
+        <button type="button" class="pill is-active" data-filter="Lip Blush">Lip Blush</button>
         <button type="button" class="pill" data-filter="Lip Neutralization">Neutralization</button>
         <button type="button" class="pill" data-filter="Lip Ombré">Ombré</button>
         <button type="button" class="pill" data-filter="Scar Camouflage">Skin</button>
