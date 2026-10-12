@@ -70,6 +70,7 @@ const nav = [
         <div>
           <h2>Explore</h2>
           <ul>
+            <li><a href="/services">All Services</a></li>
             <li><a href="/services/lip-blush">Lip Blush</a></li>
             <li><a href="/services/lip-neutralization">Lip Neutralization</a></li>
             <li><a href="/services/lip-ombre">Lip Ombré</a></li>
@@ -114,6 +115,19 @@ const nav = [
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') setOpen(false);
       });
+
+      // Arriving from another page with #section: the browser jumps before fonts and
+      // images settle, so land again once the page has finished loading.
+      const settleOnHash = () => {
+        const id = decodeURIComponent(location.hash.slice(1));
+        const el = id && document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      };
+      if (location.hash) {
+        if (document.readyState === 'complete') settleOnHash();
+        else window.addEventListener('load', () => requestAnimationFrame(settleOnHash), { once: true });
+        document.fonts?.ready.then(() => requestAnimationFrame(settleOnHash));
+      }
     </script>
   </body>
 </html>
