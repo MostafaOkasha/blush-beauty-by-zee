@@ -1,0 +1,155 @@
+---
+// All services (manuscript §6). Filters show one category; #lip, #skin and
+// #consult in the URL open on that category so homepage buttons can link here.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import consultImg from '../../assets/chat_gpt_images/R23-reel-consultation.png';
+import closingArt from '../../assets/chat_gpt_images/H16-footer-lips.png';
+import { services } from '../../data/services';
+import { SQUARE_BOOKING_URL, lipServices, skinServices, policy } from '../../data/site';
+
+const blurbs = Object.fromEntries([...lipServices, ...skinServices].map((s) => [s.href.split('/').pop(), s.blurb]));
+const groups = [
+  {
+    id: 'lip',
+    label: 'Lip Artistry',
+    intro: 'Color, shape and softness. Learn how lip blush, neutralization and ombré differ before you choose.',
+    items: services.filter((s) => s.category === 'Lip Artistry'),
+  },
+  {
+    id: 'skin',
+    label: 'Skin Revision & Camouflage',
+    intro: 'Different marks require different approaches. Understand the goals, limits and considerations of each service.',
+    items: services.filter((s) => s.category !== 'Lip Artistry'),
+  },
+];
+const extras = [
+  { name: 'Consultation', price: '$25', note: policy.consultation },
+  { name: 'Patch Test', price: '$35', note: policy.patchTest },
+  { name: 'Lip Touch-Up', price: 'Free / $150', note: policy.touchUp },
+];
+---
+
+<Base
+  title="Services & Prices | Lip Blush, Scar Camouflage | Blush Beauty by Zee"
+  description="Lip blush, dark lip neutralization, ombré, stretch mark revision and scar, vitiligo and radiation marker camouflage in Orléans, Ottawa. Prices and booking."
+>
+  <section class="page-hero" aria-labelledby="services-title">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Services</span></nav>
+      <p class="eyebrow">Explore our services</p>
+      <h1 id="services-title" class="display svc-hero__title">Find a treatment <em>worth understanding.</em></h1>
+      <p class="section-lead">
+        Cosmetic lip pigmentation and selected treatments for stretch marks, scars and visible pigmentation differences.
+        Explore the options, review pricing and see what may need a consultation first.
+      </p>
+      <div class="gallery-filters" role="group" aria-label="Filter services">
+        <button type="button" class="chip is-active" data-cat="all">All Services</button>
+        <button type="button" class="chip" data-cat="lip">Lip Artistry</button>
+        <button type="button" class="chip" data-cat="skin">Skin Revision &amp; Camouflage</button>
+        <button type="button" class="chip" data-cat="consult">Consultations &amp; Touch-Ups</button>
+      </div>
+    </div>
+  </section>
+
+  {
+    groups.map((g) => (
+      <section id={g.id} class:list={['svc-group', `svc-group--${g.id}`]} data-cat-group={g.id} aria-labelledby={`${g.id}-title`}>
+        <div class="container">
+          <div class="section-head section-head--split">
+            <div>
+              <p class="eyebrow">{g.items.length} treatments</p>
+              <h2 id={`${g.id}-title`} class="display">{g.label}</h2>
+            </div>
+            <p class="section-lead">{g.intro}</p>
+          </div>
+          <ul class="svc-cards" role="list">
+            {g.items.map((s) => (
+              <li class="svc-card">
+                <a class="svc-card__media" href={`/services/${s.slug}`} tabindex="-1" aria-hidden="true">
+                  <Image src={s.hero} alt="" widths={[480, 800]} sizes="(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 100vw" />
+                </a>
+                <div class="svc-card__body">
+                  <h3>
+                    <a href={`/services/${s.slug}`}>{s.name}</a>
+                  </h3>
+                  <p>{blurbs[s.slug]}</p>
+                  <p class="svc-card__meta">
+                    <strong>{s.price}</strong> · {s.duration}
+                  </p>
+                  <div class="svc-card__actions">
+                    <a class="btn btn--plum btn--sm" href={`/services/${s.slug}`}>
+                      Learn More <span aria-hidden="true">→</span>
+                    </a>
+                    <a class="btn btn--outline btn--sm" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">
+                      Book
+                    </a>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+
+  <section id="consult" class="svc-group svc-group--consult" data-cat-group="consult" aria-labelledby="consult-title">
+    <div class="container consult-grid">
+      <div>
+        <p class="eyebrow">Not sure where to start?</p>
+        <h2 id="consult-title" class="display">Start with the <em>right questions.</em></h2>
+        <ul class="price-cards" role="list">
+          {
+            extras.map((e) => (
+              <li class="price-card">
+                <span class="price-card__label">{e.name}</span>
+                <span class="price-card__price">{e.price}</span>
+                <span class="price-card__note">{e.note}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="btn btn--plum" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book a Consultation <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="consult-grid__media">
+        <Image src={consultImg} alt="Colour matching during a consultation" widths={[543, 1086]} sizes="(min-width: 900px) 40vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <Image class="closing__art" src={closingArt} alt="" widths={[836, 1672]} sizes="100vw" />
+    <div class="container">
+      <p class="eyebrow eyebrow--pink">Based in Orléans, Ottawa</p>
+      <h2 id="closing-title" class="display display--light display--xl">Your next step <em>starts here.</em></h2>
+      <p>Book directly through Square, or see Zheen's healed work first.</p>
+      <div class="cta-row">
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book an Appointment <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="/results">See Real Results</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Category filter; also honours #lip / #skin / #consult so links can open a category.
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-cat]'));
+  const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-cat-group]'));
+  const show = (cat: string, scroll: boolean) => {
+    for (const c of chips) {
+      const on = c.dataset.cat === cat;
+      c.classList.toggle('is-active', on);
+      c.setAttribute('aria-pressed', String(on));
+    }
+    for (const g of groups) g.hidden = cat !== 'all' && g.dataset.catGroup !== cat;
+    if (scroll && cat !== 'all') document.getElementById(cat)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  for (const c of chips) c.addEventListener('click', () => {
+    const cat = c.dataset.cat ?? 'all';
+    history.replaceState(null, '', cat === 'all' ? location.pathname : `#${cat}`);
+    show(cat, true);
+  });
+  const fromHash = location.hash.slice(1);
+  show(['lip', 'skin', 'consult'].includes(fromHash) ? fromHash : 'all', false);
+</script>

@@ -22,7 +22,7 @@ const related = s.related.map((slug) => serviceBySlug[slug]).filter(Boolean);
     <div class="container svc-hero__grid">
       <div class="svc-hero__copy">
         <nav class="crumbs" aria-label="Breadcrumb">
-          <a href="/">Home</a><span aria-hidden="true">/</span><a href={isLip ? '/#lips' : '/#skin'}>{s.category}</a><span
+          <a href="/">Home</a><span aria-hidden="true">/</span><a href="/services">Services</a><span aria-hidden="true">/</span><a href={isLip ? '/services#lip' : '/services#skin'}>{s.category}</a><span
             aria-hidden="true">/</span
           ><span aria-current="page">{s.name}</span>
         </nav>
