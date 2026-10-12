@@ -1,0 +1,70 @@
+---
+// FAQ page: the general questions plus each treatment's own, grouped (manuscript §25).
+import Base from '../layouts/Base.astro';
+import { faqs, SQUARE_BOOKING_URL, policy } from '../data/site';
+import { services } from '../data/services';
+
+const sections = [
+  { id: 'general', title: 'Getting started', items: faqs },
+  ...services.map((s) => ({ id: s.slug, title: s.name, items: s.faqs, href: `/services/${s.slug}` })),
+];
+---
+
+<Base
+  title="Frequently Asked Questions | Blush Beauty by Zee Ottawa"
+  description="Answers about lip blush, neutralization, ombré, stretch mark revision, scar, vitiligo and radiation marker camouflage, touch-ups and booking."
+>
+  <section class="page-hero" aria-labelledby="faq-title">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">FAQs</span></nav>
+      <p class="eyebrow">Good to know</p>
+      <h1 id="faq-title" class="display svc-hero__title">Questions are <em>welcome.</em></h1>
+      <p class="section-lead">Start with the essentials, then jump to the treatment you're curious about.</p>
+      <div class="gallery-filters">
+        {sections.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="faq faq--page">
+    <div class="container faq-page">
+      {
+        sections.map((s) => (
+          <div id={s.id} class="faq-page__group">
+            <div>
+              <h2 class="display display--sm">{s.title}</h2>
+              {s.href && (
+                <a class="case__link faq-page__more" href={s.href}>
+                  About {s.title} <span aria-hidden="true">→</span>
+                </a>
+              )}
+            </div>
+            <div class="faq__list">
+              {s.items.map((f) => (
+                <details class="faq__item">
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <div class="container">
+      <p class="eyebrow eyebrow--pink">Still wondering?</p>
+      <h2 id="closing-title" class="display display--light display--xl">Ask Zheen <em>directly.</em></h2>
+      <p>
+        Email <a href={`mailto:${policy.email}`}>{policy.email}</a> or book a $25 consultation to talk it through in
+        person.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn--pink" href={SQUARE_BOOKING_URL} target="_blank" rel="noopener">Book a Consultation <span aria-hidden="true">→</span></a>
+        <a class="btn btn--outline-light" href="/services">Browse Services</a>
+      </div>
+    </div>
+  </section>
+</Base>

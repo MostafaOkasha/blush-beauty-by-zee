@@ -150,6 +150,11 @@ const extras = [
     history.replaceState(null, '', cat === 'all' ? location.pathname : `#${cat}`);
     show(cat, true);
   });
-  const fromHash = location.hash.slice(1);
-  show(['lip', 'skin', 'consult'].includes(fromHash) ? fromHash : 'all', false);
+  const fromHash = () => {
+    const h = location.hash.slice(1);
+    return ['lip', 'skin', 'consult'].includes(h) ? h : 'all';
+  };
+  show(fromHash(), false);
+  // The menu links here with #lip / #skin; follow them when already on this page.
+  window.addEventListener('hashchange', () => show(fromHash(), true));
 </script>
