@@ -1,49 +1,47 @@
 # Blush Beauty by Zee
 
-Website for Blush Beauty by Zee: Zheen's lip artistry and skin revision/camouflage practice in Orléans, Ottawa.
+Website for Blush Beauty by Zee, a lip artistry and skin revision / camouflage studio in Orléans, Ottawa.
+Booking, availability and payments stay on Square; this site is the presentation, education and trust layer.
 
-The spec is the master manuscript (Complete Website Manuscript v1.0). Booking, availability and payments stay on
-[Square](https://book.squareup.com/appointments/lp3vdeg9qujfqs/location/LSSND4XM2G5RK/services); this site is the
-presentation, education and trust layer.
+**Live:** https://blush-beauty-by-zee.pages.dev/
 
-## Stack
+> **This is still a mockup.** Most photos are AI-generated placeholders and some copy (reviews, About story) is demo
+> content marked `MOCK` in the source. Swap in the client's real photos and reels, and real copy, before using the site
+> publicly. See "Swapping placeholder images" in [AGENTS.md](AGENTS.md) for where each image lives and what size it
+> should be.
 
-- [Astro](https://astro.build) static output
-- Motion: CSS for the hero entrance, IntersectionObserver for scroll reveals. Phones get no scroll-linked
-  animation (no pinning or scrubbing), so native scrolling stays smooth. [GSAP](https://gsap.com) ScrollTrigger is
-  loaded only on wide screens for a light hero parallax.
-- Bodoni Moda (display), Montserrat (text) and Ms Madi (script), matched to the design mockups and self-hosted
-  via Fontsource
-- Hosting: Cloudflare Pages (`npm run deploy`, config in `wrangler.toml`, security headers in `public/_headers`)
+## Quick start
 
-## Develop
+Needs Node.js 22+ (`nvm use` picks it up from `.nvmrc`).
 
 ```sh
 npm install
 npm run dev       # http://localhost:4321
 npm run build     # static site in dist/
-npm run preview
+npm run preview   # serve the built site locally
 ```
 
-## Content rules (from the manuscript)
+## Deploy
 
-- No fake reviews, AI before/afters, invented credentials or guaranteed outcomes.
-- Lip and skin services get equal weight.
-- Prices in `src/data/site.ts` are a dated snapshot and must match live Square before launch.
-- Everything must work with JavaScript off and with reduced motion: the motion only enhances.
+Hosted on Cloudflare Pages (project `blush-beauty-by-zee`, set in `wrangler.toml`).
 
-## Photo slots and placeholder images
+```sh
+npx wrangler login   # once
+npm run deploy       # build + upload dist/ to Cloudflare Pages
+```
 
-Real photos are still needed. There are two kinds of stand-in:
+Deploy from `main`. You need access to the Cloudflare account that owns the project; otherwise create your own Pages
+project and change `name` in `wrangler.toml`.
 
-- `<PhotoSlot>`: an empty, labelled frame for photos that must be real (Zheen's portrait, before/afters, process
-  videos). Each carries its shot brief code from the prompt pack (R01 portrait, R11–R22 documented cases, and so
-  on). Find them with `grep -rn 'brief="R' src`.
-- `<Placeholder>`: a temporary AI mood image generated from the prompt pack (`src/assets/chat_gpt_images/`, see
-  its README for which prompt each file answers and where it is used), tagged
-  on screen as "Placeholder". They set the look while the shoot is planned and must all be replaced by Zheen's own
-  photography before launch; they are never presented as her results. Find them with
-  `grep -rn 'replaceWith=\|data-placeholder-image' src`.
+## Stack
 
-`scripts/render-art.mjs` renders abstract brand art into `src/assets/art/`; it is not used on the homepage at the
-moment.
+Astro (static output), GSAP for a small desktop-only parallax, self-hosted fonts (Bodoni Moda, Montserrat, Ms Madi),
+Cloudflare Pages with security headers in `public/_headers`.
+
+## Working with an AI coding agent
+
+Instructions for Codex, Claude Code and similar tools live in [AGENTS.md](AGENTS.md) (`CLAUDE.md` just points to it).
+It covers the project layout, design tokens, motion rules, image swapping, deploying and the rules agents should
+follow. Keep it up to date when you change how the project works.
+
+Contact email shown on the site: blushbeautybyzee@gmail.com.
