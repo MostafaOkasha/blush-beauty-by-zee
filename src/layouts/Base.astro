@@ -136,28 +136,36 @@ const isCurrent = (href: string) => {
 
       // Phones and tablets: a floating "Book now" once the page has scrolled past its
       // opening screen, tucked away again over the closing call to action and footer.
+      // Measured against clientHeight (which stays put while Safari's toolbar collapses
+      // and expands) with a gap between the hide and show points, so the bar cannot
+      // flicker on and off at the footer edge as the viewport height changes.
       const bar = document.querySelector<HTMLElement>('[data-book-bar]');
+      const end = document.querySelector<HTMLElement>('.closing') ?? document.querySelector<HTMLElement>('.site-footer');
       if (bar) {
-        let past = false;
+        let shown = false;
         let atEnd = false;
-        const update = () => bar.classList.toggle('is-shown', past && !atEnd);
-        const onScroll = () => {
-          const next = window.scrollY > window.innerHeight * 0.6;
-          if (next !== past) {
-            past = next;
-            update();
+        let frame = 0;
+        const check = () => {
+          frame = 0;
+          const vh = document.documentElement.clientHeight;
+          const past = window.scrollY > vh * 0.6;
+          if (end) {
+            const top = end.getBoundingClientRect().top;
+            if (!atEnd && top < vh - 40) atEnd = true;
+            else if (atEnd && top > vh + 80) atEnd = false;
+          }
+          const next = past && !atEnd;
+          if (next !== shown) {
+            shown = next;
+            bar.classList.toggle('is-shown', shown);
           }
         };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-        const ends = document.querySelectorAll('.closing, .site-footer');
-        const seen = new Set<Element>();
-        const io = new IntersectionObserver((entries) => {
-          for (const e of entries) e.isIntersecting ? seen.add(e.target) : seen.delete(e.target);
-          atEnd = seen.size > 0;
-          update();
-        });
-        ends.forEach((el) => io.observe(el));
+        const queue = () => {
+          if (!frame) frame = requestAnimationFrame(check);
+        };
+        window.addEventListener('scroll', queue, { passive: true });
+        window.addEventListener('resize', queue, { passive: true });
+        check();
       }
 
       // Arriving from another page with #section: the browser jumps before fonts and
